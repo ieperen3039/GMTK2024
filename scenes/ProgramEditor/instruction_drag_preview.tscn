@@ -1,28 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://bbrsunr1kmpm4"]
+[gd_scene format=3 uid="uid://dylpxdbrf2onv"]
 
-[ext_resource type="StyleBox" uid="uid://cbiobrj3col8r" path="res://assets/themes/yellow_style_s.tres" id="1_hegv4"]
-[ext_resource type="Script" path="res://scenes/ProgramEditor/InstructionPanel.cs" id="2_awql1"]
-
-[node name="InstructionPanel" type="Panel"]
+[node name="InstructionPanel" type="Control"]
 modulate = Color(1, 1, 1, 0.243137)
 custom_minimum_size = Vector2(200, 40)
+layout_mode = 3
+anchors_preset = 0
 offset_right = 200.0
 offset_bottom = 40.0
-theme_override_styles/panel = ExtResource("1_hegv4")
-script = ExtResource("2_awql1")
-
-[node name="Text" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.053
-anchor_top = 0.189
-anchor_right = 0.947
-anchor_bottom = 0.811
-offset_left = 0.106999
-offset_top = -0.993001
-offset_right = -0.106995
-offset_bottom = -0.00700188
-grow_horizontal = 2
-grow_vertical = 2
-text = "<instruction name>
-"

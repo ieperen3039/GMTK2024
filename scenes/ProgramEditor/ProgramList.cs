@@ -9,9 +9,10 @@ public partial class ProgramList : Panel
     [Export]
     private Control instructionList;
     [Export]
-    private PackedScene[] instructionWrappers;
+    private PackedScene instructionSupport;
 
-    private IList<IInstruction> instructions = new List<IInstruction>();
+    private int nextId = 0;
+
 
     public override void _Ready()
     {
@@ -22,6 +23,56 @@ public partial class ProgramList : Panel
         }
     }
 
+    public IList<IInstruction> GetInstructions()
+    {
+        IList<IInstruction> instructions = new List<IInstruction>();
+        
+        foreach (Node child in instructionList.GetChildren())
+        {
+            if (child is InstructionWrapperSupport wrapper)
+            {
+                instructions.Add(wrapper.Instruction);
+            }
+        }
+        
+        return instructions;
+    }
+
+    private InstructionWrapperSupport FindInstruction(int id)
+    {
+        foreach (Node child in instructionList.GetChildren())
+        {
+            if (child is InstructionWrapperSupport wrapper)
+            {
+                if (wrapper.Id == id)
+                {
+                    return wrapper;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public void InstructionMoveUp(int id)
+    {
+        InstructionWrapperSupport wrapper = FindInstruction(id);
+        int idx = wrapper.GetIndex();
+        instructionList.MoveChild(wrapper, idx - 1);
+    }
+
+    public void InstructionMoveDown(int id)
+    {
+        InstructionWrapperSupport wrapper = FindInstruction(id);
+        int idx = wrapper.GetIndex();
+        instructionList.MoveChild(wrapper, idx + 1);
+    }
+    public void InstructionDelete(int id)
+    {
+        InstructionWrapperSupport wrapper = FindInstruction(id);
+        wrapper.QueueFree();
+    }
+
     public override bool _CanDropData(Vector2 atPosition, Variant data)
     {
         return true;
@@ -29,13 +80,20 @@ public partial class ProgramList : Panel
 
     public override void _DropData(Vector2 atPosition, Variant data)
     {
-        int typeInt = data.AsInt32();
+        InstructionWrapper wrapper = data.As<InstructionWrapper>();
+        AddInstruction(wrapper);
+    }
 
-        InstructionWrapper wrapper = instructionWrappers[typeInt].Instantiate<InstructionWrapper>();
+    private void AddInstruction(InstructionWrapper instruction)
+    {
+        InstructionWrapperSupport support = instructionSupport.Instantiate<InstructionWrapperSupport>();
+        support.Id = nextId++;
+        support.InstructionMoveUp += InstructionMoveUp;
+        support.InstructionMoveDown += InstructionMoveDown;
+        support.InstructionDelete += InstructionDelete;
 
-        if ((int) wrapper.Type != typeInt) throw new Exception("Inconsistent type (" + wrapper.Type + " has value " + (int) wrapper.Type + ")");
-
-        instructionList.AddChild(wrapper);
-        instructions.Add(wrapper.Instruction);
+        // put the InstructionWrapper inside a InstructionWrapperSupport and the result into the `instructionList`
+        support.SetContent(instruction);
+        instructionList.AddChild(support);
     }
 }
