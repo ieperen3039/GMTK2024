@@ -1,0 +1,97 @@
+[gd_scene load_steps=6 format=3 uid="uid://bqfh54tjv8ft6"]
+
+[ext_resource type="PackedScene" uid="uid://b2ii5ox10lwp" path="res://scenes/ProgramEditor/forward_panel.tscn" id="1_5ar1j"]
+[ext_resource type="Theme" uid="uid://bklj5gh5a54fs" path="res://assets/themes/yellow_theme.theme" id="1_hubn0"]
+[ext_resource type="PackedScene" uid="uid://jjqge1hgygw7" path="res://scenes/ProgramEditor/backward_panel.tscn" id="2_bunkd"]
+[ext_resource type="PackedScene" uid="uid://bufo3ejxeo4k5" path="res://scenes/ProgramEditor/turn_left_panel.tscn" id="3_buo2g"]
+[ext_resource type="PackedScene" uid="uid://bbxntk8i7oyq6" path="res://scenes/ProgramEditor/turn_right_panel.tscn" id="4_4blh2"]
+
+[node name="ProgramEditor" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Panel" type="PanelContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Control" type="Control" parent="MarginContainer/Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="Panel2" type="Panel" parent="MarginContainer/Panel/MarginContainer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 414.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/Panel/MarginContainer/Control/Panel2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 23.0
+offset_top = 19.0
+offset_right = -27.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ForwardPanel" parent="MarginContainer/Panel/MarginContainer/Control/Panel2/VBoxContainer2" instance=ExtResource("1_5ar1j")]
+layout_mode = 2
+
+[node name="ForwardPanel2" parent="MarginContainer/Panel/MarginContainer/Control/Panel2/VBoxContainer2" instance=ExtResource("2_bunkd")]
+layout_mode = 2
+
+[node name="ForwardPanel3" parent="MarginContainer/Panel/MarginContainer/Control/Panel2/VBoxContainer2" instance=ExtResource("3_buo2g")]
+layout_mode = 2
+
+[node name="ForwardPanel4" parent="MarginContainer/Panel/MarginContainer/Control/Panel2/VBoxContainer2" instance=ExtResource("4_4blh2")]
+layout_mode = 2
+
+[node name="Panel1" type="Panel" parent="MarginContainer/Panel/MarginContainer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -683.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VScrollBar" type="VScrollBar" parent="MarginContainer/Panel/MarginContainer/Control/Panel1"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -17.0
+grow_horizontal = 0
+grow_vertical = 2
+theme = ExtResource("1_hubn0")
+step = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Panel/MarginContainer/Control/Panel1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -24.0
+grow_horizontal = 2
+grow_vertical = 2

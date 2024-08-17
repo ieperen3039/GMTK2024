@@ -1,0 +1,15 @@
+[gd_resource type="StyleBoxTexture" load_steps=2 format=3 uid="uid://dpe6o0skr1xkt"]
+
+[ext_resource type="Texture2D" uid="uid://cckuo8pj13k3f" path="res://assets/ui/pixel_ui_s_d.png" id="1_evabx"]
+
+[resource]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+texture = ExtResource("1_evabx")
+texture_margin_left = 11.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 11.0
+modulate_color = Color(1, 0.839216, 0.0627451, 1)

@@ -1,0 +1,15 @@
+[gd_resource type="StyleBoxTexture" load_steps=2 format=3 uid="uid://cbiobrj3col8r"]
+
+[ext_resource type="Texture2D" uid="uid://d10qq04gnx3ql" path="res://assets/ui/pixel_ui_s.png" id="1_isigp"]
+
+[resource]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+texture = ExtResource("1_isigp")
+texture_margin_left = 5.0
+texture_margin_top = 11.0
+texture_margin_right = 11.0
+texture_margin_bottom = 5.0
+modulate_color = Color(0.88, 0.733333, 0, 1)
