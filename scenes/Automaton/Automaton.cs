@@ -5,9 +5,32 @@ public partial class Automaton : Node2D
     [Export]
     public int GridSize = 100;
 
+    public CardinalDirection Direction;
+    public IAction PreparedAction;
+
+    int nrOfCyclesAlive = 0;
+
+    private IList<IInstruction> instructions;
+    private int instructionIndexCurrent;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+    }
+
+    public IAction GetIntention() 
+    {
+        IInstruction instruction = instructions[instructionIndexCurrent];
+
+        instructionIndexCurrent = (instructionIndexCurrent + 1) % instructions.Count;
+
+        return instruction.GetAction(this);        
+    }
+
+    internal void FinalizeCycle(Vector2I targetPosition)
+    {
+        CoordinatePosition = targetPosition;
+        PreparedAction = null;
     }
 
     public void MoveGrid(Vector2I direction)
