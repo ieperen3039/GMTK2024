@@ -2,8 +2,7 @@ using Godot;
 
 public interface IAction
 {
-    Vector2I GetSourcePosition();
-    Vector2I GetTargetPosition();
+    Vector2I GetRelativeMovement() => Vector2I.Zero;
 
     void Execute(Automaton automaton);
 }

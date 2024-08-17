@@ -57,7 +57,7 @@ public partial class World : Node2D
 
                     if (color.R > 0.5) // red pixel
                     {
-                        element.HasFloor = false;
+                        element.HasFloor = true;
                     }
 
                     grids[i].SetElement(x, y, element);
@@ -103,14 +103,24 @@ public partial class World : Node2D
             if (sourceGridElement.Automaton != null)
             {
                 Automaton automaton = sourceGridElement.Automaton;
-                IAction action = automaton.GetIntention();
-                automaton.PreparedAction = action;
+                automaton.PreparedActions.Clear();
+                IAction action = automaton.ReadInstruction();
+                automaton.PreparedActions.Add(action);
             }
         }
 
-        // check and update prepared action
+        // check and update prepared actions
         foreach (Grid.Element sourceGridElement in GetCurrentGrid())
         {
+            if (sourceGridElement.Automaton != null)
+            {
+                Automaton automaton = sourceGridElement.Automaton;
+                Vector2I targetPosition = automaton.CoordinatePosition;
+                foreach (IAction action in automaton.PreparedActions)
+                {
+                    targetPosition += action.GetRelativeMovement();
+                }
+            }
         }
 
         // execute the actions
@@ -122,13 +132,17 @@ public partial class World : Node2D
                 Automaton automaton = sourceGridElement.Automaton;
                 sourceGridElement.Automaton = null;
 
-                // execute instruction
-                IAction action = automaton.PreparedAction;
-                Vector2I targetPosition = action.GetTargetPosition();
-                action.Execute(automaton);
+                // execute actions
+                Vector2I newPosition = automaton.CoordinatePosition;
+                foreach (IAction action in automaton.PreparedActions)
+                {
+                    action.Execute(automaton);
+                    newPosition += action.GetRelativeMovement();
+                }
+                automaton.CoordinatePosition = newPosition;
 
                 // add to the new place
-                Grid.Element targetGridElement = GetFutureGrid().GetElement(targetPosition);
+                Grid.Element targetGridElement = GetFutureGrid().GetElement(newPosition);
                 if (targetGridElement.HasFloor)
                 {
                     targetGridElement.Automaton = automaton;

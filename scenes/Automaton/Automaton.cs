@@ -9,7 +9,7 @@ public partial class Automaton : Node2D
 
     public Vector2I CoordinatePosition;
     public CardinalDirection Direction;
-    public IAction PreparedAction;
+    public IList<IAction> PreparedActions = new List<IAction>();
 
     private long birthCycle = 0;
 
@@ -30,9 +30,8 @@ public partial class Automaton : Node2D
         birthCycle = currentCycle;
     }
 
-    public IAction GetIntention()
+    public IAction ReadInstruction()
     {
-        GD.Print("GetIntention ", instructionIndexCurrent, "/", instructions.Count);
         if (instructions.Count == 0)
         {
             return new WaitInstruction.WaitAction(CoordinatePosition);
@@ -55,18 +54,22 @@ public partial class Automaton : Node2D
     {
         if (Input.IsActionJustPressed("player_up"))
         {
+            GD.Print("Add ForwardInstruction");
             instructions.Add(new ForwardInstruction());
         }
         else if (Input.IsActionJustPressed("player_down"))
         {
+            GD.Print("Add BackwardInstruction");
             instructions.Add(new BackwardInstruction());
         }
         else if (Input.IsActionJustPressed("player_right"))
         {
+            GD.Print("Add TurnRightInstruction");
             instructions.Add(new TurnRightInstruction());
         }
         else if (Input.IsActionJustPressed("player_left"))
         {
+            GD.Print("Add TurnLeftInstruction");
             instructions.Add(new TurnLeftInstruction());
         }
     }
@@ -96,6 +99,7 @@ public partial class Automaton : Node2D
 
     public void Die()
     {
+        GD.Print("Automation dies");
         // TODO
     }
 
