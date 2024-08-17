@@ -12,6 +12,6 @@ layout = SubResource("Image_ssry4")
 GridTileScene = ExtResource("2_gqhja")
 tmp_player = NodePath("Automaton")
 
-[node name="Grid" type="Node" parent="."]
+[node name="Grid" type="Node2D" parent="."]
 
 [node name="Automaton" parent="." instance=ExtResource("3_ijn5u")]
