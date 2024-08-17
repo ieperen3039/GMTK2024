@@ -1,14 +1,22 @@
-using Godot;
 using System;
-using System.Collections.Generic;
-using System.Numerics;
+using Godot;
+
+
 
 public partial class World : Node2D
 {
     private const int NumGridBuffers = 2;
 
+    const string GAP_COLOR = "ff0000ff";
+    const string GOAL_COLOR = "00ff00ff";
+    const string SPAWN_COLOR = "0000ffff";
+    const string NORMAL_COLOR = "ffffffff";
+
     [Export]
     private Image layout;
+
+    [Export]
+    public PackedScene GridTileScene;
 
     [Export]
     private Automaton tmp_player;
@@ -42,6 +50,8 @@ public partial class World : Node2D
             grids[i] = new Grid(xSize, ySize);
         }
 
+        var GridNode = GetNode("Grid");
+
         // https://github.com/godotengine/godot/issues/65761
         // lock (layout)
 
@@ -54,13 +64,32 @@ public partial class World : Node2D
                 for (int i = 0; i < NumGridBuffers; i++)
                 {
                     Grid.Element element = new();
+                    GridTile gridTile = GridTileScene.Instantiate<GridTile>();
 
-                    if (color.R > 0.5) // red pixel
-                    {
-                        element.HasFloor = true;
+                    switch(color.ToHtml()) {
+                        case GAP_COLOR:{
+                            element.HasFloor = false;
+                            gridTile.tileType = GridTileType.GAP;
+                            break;
+                        }
+                        case SPAWN_COLOR: {
+                            gridTile.tileType = GridTileType.SPAWN;
+                            break;
+                        }
+                        case GOAL_COLOR: {
+                            gridTile.tileType = GridTileType.GOAL;
+                            break;
+                        }
+                        default: {
+                            gridTile.tileType = GridTileType.NORMAL;
+                            break;
+                        }
                     }
 
                     grids[i].SetElement(x, y, element);
+                    var tilePosition = new Vector2I(x*16, y*16);
+                    gridTile.Position = tilePosition;
+                    GridNode.AddChild(gridTile);
                 }
             }
         }
