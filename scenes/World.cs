@@ -73,7 +73,7 @@ public partial class World : Node2D
     {
         // TODO randomize position + direction
         automaton.Spawn(new Vector2I(25, 25), CardinalDirection.NORTH, currentCycleIndex);
-        GetCurrentGrid().GetElement(tmp_player.CoordinatePosition).Automaton = tmp_player;
+        GetCurrentGrid().GetElement(automaton.CoordinatePosition).Automaton = automaton;
     }
 
     public override void _Process(double aDelta)
