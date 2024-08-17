@@ -1,14 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://joot6p7h1iof"]
+[gd_scene load_steps=5 format=3 uid="uid://joot6p7h1iof"]
 
 [ext_resource type="Script" path="res://scenes/ProgramEditor/ProgramList.cs" id="1_0mt0y"]
 [ext_resource type="Theme" uid="uid://bklj5gh5a54fs" path="res://assets/themes/yellow_theme.theme" id="1_5bma0"]
-[ext_resource type="PackedScene" uid="uid://cxq42wax48pcf" path="res://scenes/ProgramEditor/Instructions/forward_instruction_wrapper.tscn" id="2_24msx"]
-[ext_resource type="PackedScene" uid="uid://d2s5tju3bjqep" path="res://scenes/ProgramEditor/Instructions/backward_instruction_wrapper.tscn" id="3_bybfu"]
-[ext_resource type="PackedScene" uid="uid://ctptlus8n3584" path="res://scenes/ProgramEditor/Instructions/turn_left_instruction_wrapper.tscn" id="4_thm3k"]
-[ext_resource type="PackedScene" uid="uid://x2lvrdguey5n" path="res://scenes/ProgramEditor/Instructions/turn_right_instruction_wrapper.tscn" id="5_i34p3"]
+[ext_resource type="PackedScene" uid="uid://f4qb31f8wo5" path="res://scenes/ProgramEditor/instruction_wrapper_support_buttons.tscn" id="2_vbroc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kp1xx"]
-size = Vector2(87.25, 93.75)
+size = Vector2(82.25, 93.75)
 
 [node name="Panel1" type="Panel" node_paths=PackedStringArray("dropCollider", "instructionList")]
 anchors_preset = 15
@@ -20,26 +17,13 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0mt0y")
 dropCollider = NodePath("Area2D/CollisionShape2D")
-instructionList = NodePath("ScrollContainer/VBoxContainer")
-instructionWrappers = Array[PackedScene]([null, ExtResource("2_24msx"), ExtResource("3_bybfu"), ExtResource("4_thm3k"), ExtResource("5_i34p3")])
-
-[node name="VScrollBar" type="VScrollBar" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -17.0
-grow_horizontal = 0
-grow_vertical = 2
-theme = ExtResource("1_5bma0")
-step = 1.0
+instructionList = NodePath("ScrollContainer/InstructionWrapperTarget")
+instructionSupport = ExtResource("2_vbroc")
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(46.375, 50.125)
+position = Vector2(43.875, 50.125)
 shape = SubResource("RectangleShape2D_kp1xx")
 debug_color = Color(0, 0.6, 0.701961, 0.0784314)
 
@@ -52,7 +36,8 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_5bma0")
 horizontal_scroll_mode = 0
-vertical_scroll_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+[node name="InstructionWrapperTarget" type="VBoxContainer" parent="ScrollContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3

@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://b2ii5ox10lwp"]
 
-[ext_resource type="StyleBox" uid="uid://cbiobrj3col8r" path="res://assets/themes/yellow_style_s.tres" id="1_jo06t"]
-[ext_resource type="Script" path="res://scenes/ProgramEditor/InstructionPanel.cs" id="2_x3m8g"]
-[ext_resource type="PackedScene" uid="uid://bbrsunr1kmpm4" path="res://scenes/ProgramEditor/instruction_drag_preview.tscn" id="3_ueklk"]
+[ext_resource type="Theme" uid="uid://bklj5gh5a54fs" path="res://assets/themes/yellow_theme.theme" id="1_lapis"]
+[ext_resource type="Script" path="res://scenes/ProgramEditor/InstructionProto.cs" id="2_i2u42"]
+[ext_resource type="PackedScene" uid="uid://dylpxdbrf2onv" path="res://scenes/ProgramEditor/instruction_drag_preview.tscn" id="3_ueklk"]
 
-[node name="InstructionPanel" type="Panel"]
+[node name="InstructionPanel" type="Button"]
 custom_minimum_size = Vector2(200, 40)
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,8 +13,8 @@ offset_right = -952.0
 offset_bottom = -608.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = ExtResource("1_jo06t")
-script = ExtResource("2_x3m8g")
+theme = ExtResource("1_lapis")
+script = ExtResource("2_i2u42")
 dragPreview = ExtResource("3_ueklk")
 
 [node name="Text" type="Label" parent="."]
@@ -32,3 +32,5 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "<instruction name>
 "
+
+[connection signal="pressed" from="." to="." method="OnPressed"]

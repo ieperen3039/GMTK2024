@@ -6,9 +6,8 @@ public partial class InstructionWrapper : Panel
 {
     [Export]
     public InstructionType Type;
-
     [Export]
-    private PackedScene dragPreview;
+    public string DisplayName;
 
     public IInstruction Instruction;
 
@@ -23,6 +22,6 @@ public partial class InstructionWrapper : Panel
             _ => throw new Exception("Unhandled instruction type " + Type),
         };
 
-        GetNode<Label>("Text").Text = Type.ToString();
+        GetNode<Label>("Text").Text = DisplayName;
     }
 }

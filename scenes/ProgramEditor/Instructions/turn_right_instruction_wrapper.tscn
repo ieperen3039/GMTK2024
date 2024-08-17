@@ -5,17 +5,17 @@
 [ext_resource type="PackedScene" uid="uid://bbrsunr1kmpm4" path="res://scenes/ProgramEditor/instruction_drag_preview.tscn" id="3_pmuwe"]
 
 [node name="InstructionPanel" type="Panel"]
-custom_minimum_size = Vector2(400, 40)
+custom_minimum_size = Vector2(200, 40)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -752.0
-offset_bottom = -608.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
 theme_override_styles/panel = ExtResource("1_3jkgm")
 script = ExtResource("2_aslyb")
 Type = 4
+DisplayName = "Turn Right"
 dragPreview = ExtResource("3_pmuwe")
 
 [node name="Text" type="Label" parent="."]

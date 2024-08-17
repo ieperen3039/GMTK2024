@@ -1,22 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://ctptlus8n3584"]
+[gd_scene load_steps=3 format=3 uid="uid://ctptlus8n3584"]
 
 [ext_resource type="StyleBox" uid="uid://cbiobrj3col8r" path="res://assets/themes/yellow_style_s.tres" id="1_ub5dx"]
 [ext_resource type="Script" path="res://scenes/ProgramEditor/Instructions/InstructionWrapper.cs" id="2_mfro5"]
-[ext_resource type="PackedScene" uid="uid://bbrsunr1kmpm4" path="res://scenes/ProgramEditor/instruction_drag_preview.tscn" id="3_6fgjb"]
 
 [node name="InstructionPanel" type="Panel"]
-custom_minimum_size = Vector2(400, 40)
+custom_minimum_size = Vector2(200, 40)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -752.0
-offset_bottom = -608.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
 theme_override_styles/panel = ExtResource("1_ub5dx")
 script = ExtResource("2_mfro5")
 Type = 3
-dragPreview = ExtResource("3_6fgjb")
+DisplayName = "Turn Left"
 
 [node name="Text" type="Label" parent="."]
 layout_mode = 1
