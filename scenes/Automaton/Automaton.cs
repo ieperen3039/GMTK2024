@@ -1,10 +1,12 @@
 using Godot;
+using System.Collections.Generic;
 
 public partial class Automaton : Node2D
 {
     [Export]
     public int GridSize = 100;
 
+    public Vector2I CoordinatePosition;
     public CardinalDirection Direction;
     public IAction PreparedAction;
 
