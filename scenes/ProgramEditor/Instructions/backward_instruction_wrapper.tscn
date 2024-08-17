@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://d2s5tju3bjqep"]
+
+[ext_resource type="StyleBox" uid="uid://cbiobrj3col8r" path="res://assets/themes/yellow_style_s.tres" id="1_26604"]
+[ext_resource type="Script" path="res://scenes/ProgramEditor/Instructions/InstructionWrapper.cs" id="2_xhlv4"]
+[ext_resource type="PackedScene" uid="uid://bbrsunr1kmpm4" path="res://scenes/ProgramEditor/instruction_drag_preview.tscn" id="3_f6eyb"]
+
+[node name="InstructionPanel" type="Panel"]
+custom_minimum_size = Vector2(400, 40)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -752.0
+offset_bottom = -608.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("1_26604")
+script = ExtResource("2_xhlv4")
+Type = 2
+dragPreview = ExtResource("3_f6eyb")
+
+[node name="Text" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.053
+anchor_top = 0.189
+anchor_right = 0.947
+anchor_bottom = 0.811
+offset_left = 0.106999
+offset_top = -0.993001
+offset_right = -0.106995
+offset_bottom = -0.00700188
+grow_horizontal = 2
+grow_vertical = 2
+text = "<instruction name>
+"

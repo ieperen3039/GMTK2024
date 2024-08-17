@@ -34,7 +34,7 @@ public partial class Automaton : Node2D
     {
         if (instructions.Count == 0)
         {
-            return new WaitInstruction.WaitAction(CoordinatePosition);
+            return new WaitInstruction.WaitAction();
         }
 
         IInstruction instruction = instructions[instructionIndexCurrent];
