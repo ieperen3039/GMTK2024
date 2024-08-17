@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://ci4duj88wasqg"]
+
+[ext_resource type="PackedScene" uid="uid://bq0abb4awf374" path="res://scenes/Levels/Level_1/level_1.tscn" id="1_1mdw4"]
+[ext_resource type="Script" path="res://scenes/Game/Game.cs" id="1_hmets"]
+[ext_resource type="PackedScene" uid="uid://bqfh54tjv8ft6" path="res://scenes/ProgramEditor/program_editor.tscn" id="2_jwber"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_hmets")
+
+[node name="Level1" parent="." instance=ExtResource("1_1mdw4")]
+
+[node name="MenuUI" type="Control" parent="."]
+top_level = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ProgramEditor" parent="MenuUI" instance=ExtResource("2_jwber")]
+layout_mode = 1
+offset_left = 1.0
+offset_top = -1.0
+offset_right = 1108.0
+offset_bottom = 604.0
