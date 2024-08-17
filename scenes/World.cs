@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -7,14 +8,21 @@ public partial class World : Node2D
     [Export]
     private Image layout;
 
+    [Export]
+    private double cycleTimeSec;
+
     // fixed-size list of nullable elements
     private Grid[] grids;
     private int xSize;
     private int ySize;
-    int currentGrid = 0;
+    private int currentGrid = 0;
+
+    private double cycleCooldownSec;
 
     public override void _Ready()
     {
+        cycleCooldownSec = cycleTimeSec;
+
         grids = new Grid[2];
         xSize = layout.GetWidth();
         ySize = layout.GetHeight();
@@ -42,21 +50,35 @@ public partial class World : Node2D
         }
     }
 
+    public override void _Process(double aDelta){
+        cycleCooldownSec -= aDelta;
+
+        if (cycleCooldownSec < 0)
+        {
+            RunCycle();
+            cycleCooldownSec += 1;
+
+            if (cycleCooldownSec < 0) cycleCooldownSec = 0;
+        }
+    }
+
     public void RunCycle()
     {
+        // collect intentions
         foreach (Grid.Element sourceGridElement in GetCurrentGrid())
         {
-            // remove automaton from the old place
             Automaton automaton = sourceGridElement.Automaton;
             IAction action = automaton.GetIntention();
             automaton.PreparedAction = action;
         }
 
+        // check and update prepared action
         foreach (Grid.Element sourceGridElement in GetCurrentGrid())
         {
-            // check and update prepared action
+            
         }
 
+        // execute the actions
         foreach (Grid.Element sourceGridElement in GetCurrentGrid())
         {
             // remove automaton from the old place
@@ -66,10 +88,10 @@ public partial class World : Node2D
             // execute instruction
             IAction action = automaton.PreparedAction;
             Vector2I targetPosition = action.GetTargetPosition();
-            Grid.Element targetGridElement = GetFutureGrid().GetElement(targetPosition);
+            action.Execute(automaton);
             
             // add to the new place
-            automaton.FinalizeCycle(targetPosition);
+            Grid.Element targetGridElement = GetFutureGrid().GetElement(targetPosition);
             targetGridElement.Automaton = automaton;
         }
     }

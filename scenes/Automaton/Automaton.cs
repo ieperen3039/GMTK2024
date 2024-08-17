@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 
 public partial class Automaton : Node2D
@@ -20,19 +21,13 @@ public partial class Automaton : Node2D
     {
     }
 
-    public IAction GetIntention() 
+    public IAction GetIntention()
     {
         IInstruction instruction = instructions[instructionIndexCurrent];
 
         instructionIndexCurrent = (instructionIndexCurrent + 1) % instructions.Count;
 
-        return instruction.GetAction(this);        
-    }
-
-    internal void FinalizeCycle(Vector2I targetPosition)
-    {
-        CoordinatePosition = targetPosition;
-        PreparedAction = null;
+        return instruction.GetAction(this);
     }
 
     public void MoveGrid(Vector2I direction)
@@ -44,46 +39,44 @@ public partial class Automaton : Node2D
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        if(Input.IsActionJustPressed("player_up")) {
-            MoveForward();
-        } else if (Input.IsActionJustPressed("player_down")) {
-            MoveBackward();
-        } else if (Input.IsActionJustPressed("player_right")){
-            TurnLeft();
-        } else if (Input.IsActionJustPressed("player_left")) {
-            TurnRight();
+        if (Input.IsActionJustPressed("player_up"))
+        {
+            instructions.Add(new ForwardInstruction());
+        }
+        else if (Input.IsActionJustPressed("player_down"))
+        {
+            instructions.Add(new TurnLeftInstruction());
+        }
+        else if (Input.IsActionJustPressed("player_right"))
+        {
+            instructions.Add(new TurnRightInstruction());
+        }
+        else if (Input.IsActionJustPressed("player_left"))
+        {
+            instructions.Add(new ForwardInstruction());
         }
     }
 
-
     public void MoveForward()
     {
-        Vector2 direction = new Vector2(0, -1);
-        direction = direction.Rotated(Rotation).Round();
-        Vector2I fixedDirection = new Vector2I((int)direction.X, (int)direction.Y);
-        MoveGrid(fixedDirection);        
+        MoveGrid(CardinalDirections.ToVectorI(Direction));
     }
 
     public void MoveBackward()
     {
-        Vector2 direction = new Vector2(0, 1);
-        direction = direction.Rotated(Rotation).Round();
-        Vector2I fixedDirection = new Vector2I((int)direction.X, (int)direction.Y);
-        MoveGrid(fixedDirection);   
+        Vector2I back = -CardinalDirections.ToVectorI(Direction);
+        MoveGrid(back);
     }
 
     public void TurnLeft()
     {
-        int currentRotationDegrees = (int)RotationDegrees;
-        currentRotationDegrees = (currentRotationDegrees + 90) % 360;
-        RotationDegrees = currentRotationDegrees;
+        Direction = CardinalDirections.RotateClockwise(Direction);
+        Rotation = CardinalDirections.ToVector(Direction).Angle();
     }
 
     public void TurnRight()
     {
-        int currentRotationDegrees = (int)RotationDegrees;
-        currentRotationDegrees = (currentRotationDegrees - 90) % 360;
-        RotationDegrees = currentRotationDegrees;
+        Direction = CardinalDirections.RotateCounterClockwise(Direction);
+        Rotation = CardinalDirections.ToVector(Direction).Angle();
     }
-
 }

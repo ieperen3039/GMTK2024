@@ -1,3 +1,7 @@
-[gd_scene format=3 uid="uid://bfvji08lcjedj"]
+[gd_scene load_steps=2 format=3 uid="uid://bfvji08lcjedj"]
+
+[ext_resource type="PackedScene" uid="uid://dvcjrfnssr6p5" path="res://scenes/Automaton/automaton.tscn" id="1_sd417"]
 
 [node name="TestLevel" type="Node2D"]
+
+[node name="Automaton" parent="." instance=ExtResource("1_sd417")]
