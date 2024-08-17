@@ -23,6 +23,14 @@ public class TurnAction : IAction
 
     public void Execute(Automaton automaton)
     {
-        automaton.MoveForward();
+        switch (Direction)
+        {
+            case TurnDirection.LEFT:
+                automaton.TurnLeft();
+                break;
+            case TurnDirection.RIGHT:
+                automaton.TurnRight();
+                break;
+        }
     }
 }

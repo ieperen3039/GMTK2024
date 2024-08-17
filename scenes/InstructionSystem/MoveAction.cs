@@ -2,18 +2,18 @@ using Godot;
 
 public class MoveAction : IAction 
 {
-    public CardinalDirection Direction;
-    public Vector2I Position;
+    public Vector2I SourcePosition;    
+    public Vector2I TargetPosition;
 
-    public MoveAction(Vector2I aPosition, CardinalDirection aDirection)
+    public MoveAction(Vector2I aStartPosition, Vector2I aRelativeMovement)
     {
-        Position = aPosition;
-        Direction = aDirection;
+        SourcePosition = aStartPosition;    
+        TargetPosition = aStartPosition + aRelativeMovement;
     }
 
-    public Vector2I GetSourcePosition() { return Position; }
+    public Vector2I GetSourcePosition() { return SourcePosition; }
 
-    public Vector2I GetTargetPosition() { return Position += CardinalDirections.ToVectorI(Direction); }
+    public Vector2I GetTargetPosition() { return TargetPosition; }
 
     public void Execute(Automaton automaton) 
     {
