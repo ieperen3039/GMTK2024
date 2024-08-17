@@ -6,6 +6,7 @@ public partial class World : Node2D
 {
     [Export]
     private Image layout;
+    
 
     // fixed-size list of nullable elements
     private Grid[] grids;
@@ -15,6 +16,7 @@ public partial class World : Node2D
 
     public override void _Ready()
     {
+        layout = Image.LoadFromFile("res://assets/levels/level_1.png");
         grids = new Grid[2];
         xSize = layout.GetWidth();
         ySize = layout.GetHeight();
@@ -23,21 +25,20 @@ public partial class World : Node2D
 
         // https://github.com/godotengine/godot/issues/65761
         // lock (layout)
+        
+        for (int y = 0; y < ySize; y++)
         {
-            for (int y = 0; y < ySize; y++)
+            for (int x = 0; x < xSize; x++)
             {
-                for (int x = 0; x < xSize; x++)
+                Color color = layout.GetPixel(x, y);
+                Grid.Element element = new();
+
+                if (color.R > 0.5) // red pixel
                 {
-                    Color color = layout.GetPixel(x, y);
-                    Grid.Element element = new();
-
-                    if (color.R > 0.5) // red pixel
-                    {
-                        element.HasFloor = false;
-                    }
-
-                    grids[0].SetElement(x, y, element);
+                    element.HasFloor = false;
                 }
+
+                grids[0].SetElement(x, y, element);
             }
         }
     }
