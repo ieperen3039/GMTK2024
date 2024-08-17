@@ -1,11 +1,20 @@
+using System;
 using Godot;
-using System.Collections.Generic;
-using System.Numerics;
+
+
 
 public partial class World : Node2D 
 {
+    const string GAP_COLOR = "ff0000ff";
+    const string GOAL_COLOR = "00ff00ff";
+    const string SPAWN_COLOR = "0000ffff";
+    const string NORMAL_COLOR = "ffffffff";
+
     [Export]
     private Image layout;
+
+    [Export]
+    public PackedScene GridTileScene;
     
 
     // fixed-size list of nullable elements
@@ -23,6 +32,8 @@ public partial class World : Node2D
         grids[0] = new Grid(xSize, ySize);
         grids[1] = new Grid(xSize, ySize);
 
+        var GridNode = GetNode("Grid");
+
         // https://github.com/godotengine/godot/issues/65761
         // lock (layout)
         
@@ -32,13 +43,32 @@ public partial class World : Node2D
             {
                 Color color = layout.GetPixel(x, y);
                 Grid.Element element = new();
+                GridTile gridTile = GridTileScene.Instantiate<GridTile>();
 
-                if (color.R > 0.5) // red pixel
-                {
-                    element.HasFloor = false;
+                switch(color.ToHtml()) {
+                    case GAP_COLOR:{
+                        element.HasFloor = false;
+                        gridTile.tileType = GridTileType.GAP;
+                        break;
+                    }
+                    case SPAWN_COLOR: {
+                        gridTile.tileType = GridTileType.SPAWN;
+                        break;
+                    }
+                    case GOAL_COLOR: {
+                        gridTile.tileType = GridTileType.GOAL;
+                        break;
+                    }
+                    default: {
+                        gridTile.tileType = GridTileType.NORMAL;
+                        break;
+                    }
                 }
 
                 grids[0].SetElement(x, y, element);
+                var tilePosition = new Vector2I(x*16, y*16);
+                gridTile.Position = tilePosition;
+                GridNode.AddChild(gridTile);
             }
         }
     }

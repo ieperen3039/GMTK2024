@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxagp8ssfi74g"]
+
+[ext_resource type="Texture2D" uid="uid://bi2j7tkerqsy2" path="res://assets/grid_tiles/grid_tiles.png" id="1_orxwk"]
+[ext_resource type="Script" path="res://scenes/GridTile/GridTile.cs" id="2_76dmt"]
+
+[node name="GridTile" type="Sprite2D"]
+texture_filter = 1
+texture = ExtResource("1_orxwk")
+hframes = 4
+region_enabled = true
+region_rect = Rect2(0, 0, 64, 16)
+script = ExtResource("2_76dmt")
