@@ -45,7 +45,7 @@ public partial class Game : Node2D
         GD.Print("  >>> Load next level function");
         currentLevel += 1;
 
-        if (currentLevel >= 3){
+        if (currentLevel > 3){
             GetTree().ChangeSceneToFile("res://scenes/Game/game_finish.tscn");
         }
 
