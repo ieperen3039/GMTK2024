@@ -15,7 +15,7 @@ public partial class Game : Node2D
         Control programEditor = GetNode<Control>("MenuUI/ProgramEditor");
         programEditor.Visible = false;
 
-        programEditor.GetNode<Button>("MarginContainer/Panel/MarginContainer/Control/Panel/HBoxContainer/CancelButton").Pressed += ToggleProgramEditor;
+        programEditor.GetNode<Button>("%CancelButton").Pressed += ToggleProgramEditor;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

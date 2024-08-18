@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bqfh54tjv8ft6"]
+[gd_scene load_steps=10 format=3 uid="uid://bqfh54tjv8ft6"]
 
 [ext_resource type="PackedScene" uid="uid://b2ii5ox10lwp" path="res://scenes/ProgramEditor/instruction_prototype.tscn" id="1_5ar1j"]
 [ext_resource type="Theme" uid="uid://bklj5gh5a54fs" path="res://assets/themes/yellow_theme.theme" id="1_hubn0"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://ctptlus8n3584" path="res://scenes/ProgramEditor/Instructions/turn_left_instruction_wrapper.tscn" id="6_b1qrt"]
 [ext_resource type="PackedScene" uid="uid://cjq2gasgext7i" path="res://scenes/ProgramEditor/Instructions/jump_instruction_wrapper.tscn" id="7_8k54t"]
 [ext_resource type="PackedScene" uid="uid://x2lvrdguey5n" path="res://scenes/ProgramEditor/Instructions/turn_right_instruction_wrapper.tscn" id="7_mqq8f"]
+[ext_resource type="PackedScene" uid="uid://cssx5x88bx3n0" path="res://scenes/ProgramEditor/Instructions/check_instruction_wrapper.tscn" id="8_3fsu8"]
 
 [node name="ProgramEditor" type="PanelContainer"]
 anchors_preset = 15
@@ -40,7 +41,7 @@ theme_override_constants/separation = 10
 [node name="InstructionList" parent="MarginContainer/Panel/MarginContainer/Control" instance=ExtResource("2_aky0g")]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 1.5
+size_flags_stretch_ratio = 2.0
 
 [node name="Control" type="VBoxContainer" parent="MarginContainer/Panel/MarginContainer/Control"]
 custom_minimum_size = Vector2(20, 20)
@@ -81,6 +82,10 @@ asInstance = ExtResource("7_mqq8f")
 layout_mode = 2
 asInstance = ExtResource("7_8k54t")
 
+[node name="CheckProto" parent="MarginContainer/Panel/MarginContainer/Control/Control/Panel2/VBoxContainer" instance=ExtResource("1_5ar1j")]
+layout_mode = 2
+asInstance = ExtResource("8_3fsu8")
+
 [node name="Panel" type="Panel" parent="MarginContainer/Panel/MarginContainer/Control/Control"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
@@ -103,12 +108,14 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="StartButton" type="Button" parent="MarginContainer/Panel/MarginContainer/Control/Control/Panel/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_hubn0")
 text = "Start"
 
 [node name="CancelButton" type="Button" parent="MarginContainer/Panel/MarginContainer/Control/Control/Panel/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_hubn0")
@@ -119,3 +126,4 @@ text = "Cancel"
 [connection signal="Pressed" from="MarginContainer/Panel/MarginContainer/Control/Control/Panel2/VBoxContainer/TurnLeftProto" to="MarginContainer/Panel/MarginContainer/Control/InstructionList" method="AddInstruction"]
 [connection signal="Pressed" from="MarginContainer/Panel/MarginContainer/Control/Control/Panel2/VBoxContainer/TurnRightProto" to="MarginContainer/Panel/MarginContainer/Control/InstructionList" method="AddInstruction"]
 [connection signal="Pressed" from="MarginContainer/Panel/MarginContainer/Control/Control/Panel2/VBoxContainer/JumpProto" to="MarginContainer/Panel/MarginContainer/Control/InstructionList" method="AddInstruction"]
+[connection signal="Pressed" from="MarginContainer/Panel/MarginContainer/Control/Control/Panel2/VBoxContainer/CheckProto" to="MarginContainer/Panel/MarginContainer/Control/InstructionList" method="AddInstruction"]

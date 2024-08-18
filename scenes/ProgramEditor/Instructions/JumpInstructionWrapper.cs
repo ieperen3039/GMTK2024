@@ -4,21 +4,14 @@ using System;
 public partial class JumpInstructionWrapper : InstructionWrapper
 {
     [Export]
-    private LineEdit lineEdit;
+    private SpinBox lineEdit;
 
 
-    private void OnJumpTargetChange(string aNewText)
+    private void OnJumpTargetChange(double value)
     {
         if (Instruction is JumpInstruction jumpInstruction)
         {
-            try
-            {
-                jumpInstruction.TargetId = aNewText.ToInt();
-            }
-            catch (Exception)
-            {
-                lineEdit.Text = "";
-            }
+            jumpInstruction.TargetId = (int)value;
         }
         else
         {
@@ -26,5 +19,3 @@ public partial class JumpInstructionWrapper : InstructionWrapper
         }
     }
 }
-
-

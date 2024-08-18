@@ -29,7 +29,7 @@ public partial class World : Node2D
     private Grid[] grids;
     private int xSize;
     private int ySize;
-    private int currentGrid = 0;
+    private int currentGridIdx = 0;
 
     private double cycleCooldownSec;
     private long currentCycleIndex;
@@ -127,19 +127,21 @@ public partial class World : Node2D
     public void RunCycle()
     {
         // collect intentions
-        foreach (Grid.Element sourceGridElement in GetCurrentGrid())
+        Grid currentGrid = GetCurrentGrid();
+
+        foreach (Grid.Element sourceGridElement in currentGrid)
         {
             if (sourceGridElement.Automaton != null)
             {
                 Automaton automaton = sourceGridElement.Automaton;
                 automaton.PreparedActions.Clear();
-                IAction action = automaton.ReadInstruction();
+                IAction action = automaton.ReadInstruction(currentGrid);
                 automaton.PreparedActions.Add(action);
             }
         }
 
         // check and update prepared actions
-        foreach (Grid.Element sourceGridElement in GetCurrentGrid())
+        foreach (Grid.Element sourceGridElement in currentGrid)
         {
             if (sourceGridElement.Automaton != null)
             {
@@ -153,7 +155,7 @@ public partial class World : Node2D
         }
 
         // execute the actions
-        foreach (Grid.Element sourceGridElement in GetCurrentGrid())
+        foreach (Grid.Element sourceGridElement in currentGrid)
         {
             if (sourceGridElement.Automaton != null)
             {
@@ -172,6 +174,10 @@ public partial class World : Node2D
 
                 // add to the new place
                 Grid.Element targetGridElement = GetFutureGrid().GetElement(newPosition);
+                if (targetGridElement.Automaton != null)
+                {
+                    throw new Exception("Automaton added to grid element, but there was already another automaton " + newPosition);
+                }
                 if (targetGridElement.HasFloor)
                 {
                     targetGridElement.Automaton = automaton;
@@ -183,9 +189,9 @@ public partial class World : Node2D
             }
         }
 
-        currentGrid = (currentGrid + 1) % NumGridBuffers;
+        currentGridIdx = (currentGridIdx + 1) % NumGridBuffers;
     }
 
-    private Grid GetCurrentGrid() => grids[currentGrid];
-    private Grid GetFutureGrid() => grids[(currentGrid + 1) % NumGridBuffers];
+    private Grid GetCurrentGrid() => grids[currentGridIdx];
+    private Grid GetFutureGrid() => grids[(currentGridIdx + 1) % NumGridBuffers];
 }

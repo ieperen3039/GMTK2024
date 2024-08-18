@@ -12,7 +12,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = ExtResource("1_2qdb4")
 script = ExtResource("2_s1yot")
-lineEdit = NodePath("MarginContainer/BoxContainer/LineEdit")
+lineEdit = NodePath("MarginContainer/BoxContainer/SpinBox")
 NameLabel = NodePath("MarginContainer/BoxContainer/Text")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -37,10 +37,9 @@ size_flags_vertical = 6
 text = "Jump to Instruction
 "
 
-[node name="LineEdit" type="LineEdit" parent="MarginContainer/BoxContainer"]
+[node name="SpinBox" type="SpinBox" parent="MarginContainer/BoxContainer"]
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 size_flags_vertical = 3
-text = "0"
 
-[connection signal="text_submitted" from="MarginContainer/BoxContainer/LineEdit" to="." method="OnJumpTargetChange"]
+[connection signal="value_changed" from="MarginContainer/BoxContainer/SpinBox" to="." method="OnJumpTargetChange"]
