@@ -50,12 +50,12 @@ public partial class Automaton : Node2D
         }
 
         IAction action = null;
-        int remainingIterations = 50;
+        int remainingIterations = 20;
 
         while (action == null && remainingIterations-- > 0)
         {
             IInstruction instruction = Instructions[instructionIndexCurrent];
-                GD.Print("Execute ", instructionIndexCurrent);
+            GD.Print("Execute ", instructionIndexCurrent);
 
             // too much effort to solve this nicely
             if (instruction == null)
@@ -65,10 +65,8 @@ public partial class Automaton : Node2D
             else if (instruction is CheckInstruction checkInstruction)
             {
                 bool success = ExecuteCheck(checkInstruction, game);
-                if (success)
-                {
-                    instructionIndexCurrent = checkInstruction.TargetId;
-                }
+                instructionIndexCurrent = success ? checkInstruction.TargetId : NextInstruction();
+                GD.Print("Success = ", success, " Jump to ", instructionIndexCurrent);
             }
             else if (instruction is JumpInstruction jumpInstruction)
             {
@@ -77,7 +75,7 @@ public partial class Automaton : Node2D
             }
             else
             {
-                instructionIndexCurrent = (instructionIndexCurrent + 1) % Instructions.Count;
+                instructionIndexCurrent = NextInstruction();
             }
 
             action = instruction.GetAction(this);
@@ -85,7 +83,13 @@ public partial class Automaton : Node2D
 
         return action ?? new WaitInstruction.WaitAction();
     }
-    
+
+    private int NextInstruction()
+    {
+        return (instructionIndexCurrent + 1) % Instructions.Count;
+    }
+
+
     public Vector2I GetTargetPosition()
     {
         return GridCoordinate + PreparedAction.GetRelativeMovement();
