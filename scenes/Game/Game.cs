@@ -6,16 +6,16 @@ public partial class Game : Node2D
 
     public void ToggleProgramEditor()
     {
-        GetNode<Control>("MenuUI/ProgramEditor").Visible = !GetNode<Control>("MenuUI/ProgramEditor").Visible;        
+        GetNode<Control>("OverlayUI/MenuUI/ProgramEditor").Visible = !GetNode<Control>("OverlayUI/MenuUI/ProgramEditor").Visible;        
     }
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        Control programEditor = GetNode<Control>("MenuUI/ProgramEditor");
+        Control programEditor = GetNode<Control>("OverlayUI/MenuUI/ProgramEditor");
         programEditor.Visible = false;
 
-        programEditor.GetNode<Button>("%CancelButton").Pressed += ToggleProgramEditor;
+        programEditor.GetNode<Button>("MarginContainer/Panel/MarginContainer/Control/Control/Panel/HBoxContainer/CancelButton").Pressed += ToggleProgramEditor;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

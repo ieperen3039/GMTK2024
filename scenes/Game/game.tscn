@@ -9,16 +9,18 @@ script = ExtResource("1_hmets")
 
 [node name="Level1" parent="." instance=ExtResource("1_1mdw4")]
 
-[node name="MenuUI" type="Control" parent="."]
+[node name="OverlayUI" type="CanvasLayer" parent="."]
+
+[node name="MenuUI" type="Control" parent="OverlayUI"]
 top_level = true
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="ProgramEditor" parent="MenuUI" instance=ExtResource("2_jwber")]
+[node name="ProgramEditor" parent="OverlayUI/MenuUI" instance=ExtResource("2_jwber")]
 layout_mode = 1
 offset_left = 1.0
 offset_top = -1.0
-offset_right = 1108.0
-offset_bottom = 604.0
+offset_right = 761.0
+offset_bottom = 755.0
