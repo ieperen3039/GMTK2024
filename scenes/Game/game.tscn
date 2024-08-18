@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://ctg20tedj4fpn" path="res://scenes/Game/level_ui.tscn" id="3_npsnj"]
 [ext_resource type="Image" uid="uid://b5jyqa7lyrqgu" path="res://assets/levels/level_2.png" id="4_royg8"]
 [ext_resource type="Image" uid="uid://c26tugvnhv0bk" path="res://assets/levels/level_3.png" id="5_2e3vn"]
-[ext_resource type="PackedScene" path="res://scenes/Game/options_menu.tscn" id="5_ye4n1"]
+[ext_resource type="PackedScene" uid="uid://cjxnu2jmf2lvh" path="res://scenes/Game/options_menu.tscn" id="5_ye4n1"]
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("programEditor", "levelUi", "level", "optionsMenu")]
 script = ExtResource("1_hmets")

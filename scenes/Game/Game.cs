@@ -53,6 +53,7 @@ public partial class Game : Node2D
         // GD.Print("  >>> Loading next level: ", levelResString);
         level.SetLevelNumber(currentLevel);
         level.ReloadWorld();
+        LoadInstructions();
     }
 
 
