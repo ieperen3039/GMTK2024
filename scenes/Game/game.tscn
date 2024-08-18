@@ -16,7 +16,6 @@ optionsMenu = NodePath("OverlayUI/OptionsMenu")
 
 [node name="Level" parent="." instance=ExtResource("1_1mdw4")]
 layout = ExtResource("3_3hpla")
-cycleTimeSec = 2.0
 
 [node name="OverlayUI" type="CanvasLayer" parent="."]
 
