@@ -5,6 +5,7 @@ public enum GridTileType {
     NORMAL = 1,
     SPAWN = 2,
     GOAL = 3,
+    WALL = 4,
 }
 
 public partial class GridTile : Sprite2D

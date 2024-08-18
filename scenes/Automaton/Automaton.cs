@@ -13,6 +13,7 @@ public partial class Automaton : Node2D
     public CardinalDirection Direction;
     public IList<IAction> PreparedActions = new List<IAction>();
     public IList<IInstruction> Instructions = new List<IInstruction>();
+    Tween movementTween;
 
     private long birthCycle = 0;
 
@@ -99,7 +100,18 @@ public partial class Automaton : Node2D
 
     public void MoveGrid(Vector2I direction)
     {
-        Translate(direction * GridTileSize);
+        // Calculate the new position
+        Vector2 newPosition = GlobalPosition; 
+        newPosition += direction * GridTileSize;
+
+        // Kill our current tween if it's still running
+        movementTween?.Kill();
+
+        // Start a new tween
+        movementTween = GetTree().CreateTween();
+
+        // Move ourselves
+        movementTween.TweenProperty(this, "global_position", newPosition, 0.5f);        
     }
 
 

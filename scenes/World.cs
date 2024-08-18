@@ -12,6 +12,7 @@ public partial class World : Node2D
     const string GAP_COLOR = "ff0000ff";
     const string GOAL_COLOR = "00ff00ff";
     const string SPAWN_COLOR = "0000ffff";
+    const string WALL_COLOR = "303030ff";
     const string NORMAL_COLOR = "ffffffff";
 
     [Export]
@@ -89,6 +90,11 @@ public partial class World : Node2D
                         }
                         case GOAL_COLOR: {
                             gridTile.tileType = GridTileType.GOAL;
+                            break;
+                        }
+                        case WALL_COLOR: {
+                            gridTile.tileType = GridTileType.WALL;
+                            element.IsWall = true;
                             break;
                         }
                         default: {
@@ -213,10 +219,10 @@ public partial class World : Node2D
                 {
                     throw new Exception("Automaton added to grid element, but there was already another automaton " + newPosition);
                 }
-                if (targetGridElement.HasFloor)
+                if (targetGridElement.HasFloor && !targetGridElement.IsWall)
                 {
                     targetGridElement.Automaton = automaton;
-                }
+                } 
                 else
                 {
                     automaton.Die();
