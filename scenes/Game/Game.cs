@@ -49,9 +49,9 @@ public partial class Game : Node2D
             GetTree().ChangeSceneToFile("res://scenes/Game/game_finish.tscn");
         }
 
-        string levelResString = string.Format("res://assets/levels/level_{0}.png", currentLevel);
-        GD.Print("  >>> Loading next level: ", levelResString);
-        level.SetLevel(levelResString);
+        // string levelResString = string.Format("res://assets/levels/level_{0}.png", currentLevel);
+        // GD.Print("  >>> Loading next level: ", levelResString);
+        level.SetLevelNumber(currentLevel);
         level.ReloadWorld();
     }
 

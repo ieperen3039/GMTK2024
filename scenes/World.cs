@@ -17,6 +17,12 @@ public partial class World : Node2D
 
     [Export]
     private Image layout;
+    [Export]
+    private Image layout_level_1;
+    [Export]
+    private Image layout_level_2;
+    [Export]
+    private Image layout_level_3;
 
     [Export]
     public PackedScene GridTileScene;
@@ -49,6 +55,17 @@ public partial class World : Node2D
 
     public void SetLevel(string aLevelString) {
         layout = Image.LoadFromFile(aLevelString);
+    }
+
+    public void SetLevelNumber(int aLevel)
+    {
+        if (aLevel == 1){
+            layout = layout_level_1;
+        } else if (aLevel == 2) {
+            layout = layout_level_2;
+        } else if (aLevel == 3) {
+            layout = layout_level_3;
+        }
     }
 
     public override void _Ready()
