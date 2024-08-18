@@ -3,20 +3,17 @@
 [ext_resource type="Theme" uid="uid://bklj5gh5a54fs" path="res://assets/themes/yellow_theme.theme" id="1_4jajp"]
 [ext_resource type="Script" path="res://scenes/ProgramEditor/InstructionWrapperSupport.cs" id="2_dx6ui"]
 
-[node name="InstructionWrapperSupportButtons" type="Panel" node_paths=PackedStringArray("instructionWrapperTarget")]
+[node name="InstructionWrapperSupportButtons" type="Panel" node_paths=PackedStringArray("instructionWrapperTarget", "idLabel")]
 custom_minimum_size = Vector2(200, 52)
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -845.0
-offset_bottom = -596.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
+anchors_preset = -1
+anchor_right = 0.25
+offset_right = 85.0
+offset_bottom = 52.0
+size_flags_vertical = 0
 theme = ExtResource("1_4jajp")
 script = ExtResource("2_dx6ui")
 instructionWrapperTarget = NodePath("HBoxContainer/InstructionWrapperTarget")
+idLabel = NodePath("HBoxContainer/Panel/Label")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -29,7 +26,23 @@ offset_right = -6.0
 offset_bottom = -6.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_4jajp")
+
+[node name="Panel" type="Panel" parent="HBoxContainer"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Label" type="Label" parent="HBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "<id>"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="InstructionWrapperTarget" type="Control" parent="HBoxContainer"]
 layout_mode = 2
@@ -38,16 +51,19 @@ size_flags_horizontal = 3
 [node name="ButtonUp" type="Button" parent="HBoxContainer"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
+size_flags_vertical = 0
 text = "/\\"
 
 [node name="ButtonDown" type="Button" parent="HBoxContainer"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
+size_flags_vertical = 0
 text = "\\/"
 
 [node name="ButtonDelete" type="Button" parent="HBoxContainer"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
+size_flags_vertical = 0
 text = "X"
 
 [connection signal="pressed" from="HBoxContainer/ButtonUp" to="." method="MoveUp"]

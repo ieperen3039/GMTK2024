@@ -26,11 +26,17 @@ public partial class ProgramList : Panel
     public IList<IInstruction> GetInstructions()
     {
         IList<IInstruction> instructions = new List<IInstruction>();
+        int instructionIndex = 0;
         
         foreach (Node child in instructionList.GetChildren())
         {
             if (child is InstructionWrapperSupport wrapper)
             {
+                // change TargetId to be the index instead
+                if (wrapper.Instruction is JumpInstruction jumpInstr) {
+                    jumpInstr.TargetId = instructionIndex++;
+                }
+
                 instructions.Add(wrapper.Instruction);
             }
         }
@@ -87,7 +93,7 @@ public partial class ProgramList : Panel
     private void AddInstruction(InstructionWrapper instruction)
     {
         InstructionWrapperSupport support = instructionSupport.Instantiate<InstructionWrapperSupport>();
-        support.Id = nextId++;
+        support.SetId(nextId++);
         support.InstructionMoveUp += InstructionMoveUp;
         support.InstructionMoveDown += InstructionMoveDown;
         support.InstructionDelete += InstructionDelete;

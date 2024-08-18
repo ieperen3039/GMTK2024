@@ -1,20 +1,20 @@
 [gd_scene load_steps=3 format=3 uid="uid://cxq42wax48pcf"]
 
-[ext_resource type="StyleBox" uid="uid://cbiobrj3col8r" path="res://assets/themes/yellow_style_s.tres" id="1_lpxaf"]
-[ext_resource type="Script" path="res://scenes/ProgramEditor/Instructions/InstructionWrapper.cs" id="2_y64dt"]
+[ext_resource type="StyleBox" uid="uid://dn6omm1eqlfu0" path="res://assets/themes/style_move.tres" id="1_14en0"]
+[ext_resource type="Script" path="res://scenes/ProgramEditor/Instructions/SimpleInstructionWrapper.cs" id="2_ttc7t"]
 
-[node name="InstructionPanel" type="Panel"]
-custom_minimum_size = Vector2(200, 40)
+[node name="InstructionPanel" type="Panel" node_paths=PackedStringArray("NameLabel")]
+custom_minimum_size = Vector2(150, 40)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
-theme_override_styles/panel = ExtResource("1_lpxaf")
-script = ExtResource("2_y64dt")
+theme_override_styles/panel = ExtResource("1_14en0")
+script = ExtResource("2_ttc7t")
 Type = 1
-DisplayName = "Move Forward"
+NameLabel = NodePath("Text")
 
 [node name="Text" type="Label" parent="."]
 layout_mode = 1
@@ -29,5 +29,4 @@ offset_right = -0.106995
 offset_bottom = -0.00700188
 grow_horizontal = 2
 grow_vertical = 2
-text = "<instruction name>
-"
+text = "Move Forward"

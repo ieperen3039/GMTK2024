@@ -1,15 +1,6 @@
 using Godot;
 using System;
 
-public enum InstructionType
-{
-    WAIT = 0,
-    FORWARD = 1,
-    BACKWARD = 2,
-    TURN_LEFT = 3,
-    TURN_RIGHT = 4,
-}
-
 public partial class InstructionProto : Button
 {
     [Signal]
