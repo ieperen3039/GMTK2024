@@ -44,6 +44,11 @@ public partial class Game : Node2D
     {
         GD.Print("  >>> Load next level function");
         currentLevel += 1;
+
+        if (currentLevel >= 3){
+            GetTree().ChangeSceneToFile("res://scenes/Game/game_finish.tscn");
+        }
+
         string levelResString = string.Format("res://assets/levels/level_{0}.png", currentLevel);
         GD.Print("  >>> Loading next level: ", levelResString);
         level.SetLevel(levelResString);

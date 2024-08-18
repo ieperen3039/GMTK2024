@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://cib3cxpfu3mb2"]
+[gd_scene format=3 uid="uid://bstl8nkg00i7d"]
 
 [node name="GameFinish" type="Control"]
 layout_mode = 3
