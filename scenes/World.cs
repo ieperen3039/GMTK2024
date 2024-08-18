@@ -127,11 +127,14 @@ public partial class World : Node2D
             throw new Exception("null instruction");
         };
 
+        Grid.Element element = GetCurrentGrid().GetElement(playerAutomaton.GridCoordinate);
+        element.Automaton = null;
         // Automaton automaton = automatonScene.Instantiate<Automaton>();
         // automaton.Plunder(playerAutomaton);
         // AddChild(automaton);
 
         playerAutomaton.Instructions = instructions;
+        playerAutomaton.Visible = true;
 
         int targetSpawnIndex = rng.RandiRange(0, spawnPositions.Count - 1);
         Spawn(playerAutomaton, spawnPositions[targetSpawnIndex]);
@@ -193,6 +196,12 @@ public partial class World : Node2D
             if (tile.Automaton != null)
             {
                 Automaton automaton = tile.Automaton;
+                if (!tile.HasFloor)
+                {
+                    automaton.Die();
+                    continue;
+                }
+
                 automaton.PreparedAction = automaton.ReadInstruction(currentGrid);
                 
                 // only move actions can block other automatons
@@ -280,12 +289,6 @@ public partial class World : Node2D
 
                 // execute actions
                 automaton.PreparedAction.Execute(automaton);
-
-                Grid.Element targetGridElement = futureGrid.GetElement(automaton.GridCoordinate);
-                if (!targetGridElement.HasFloor)
-                {
-                    automaton.Die();
-                }
             }
         }
 

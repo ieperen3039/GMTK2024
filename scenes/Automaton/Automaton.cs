@@ -195,7 +195,8 @@ public partial class Automaton : Node2D
     public void Die()
     {
         GD.Print("Automation dies");
-        // TODO
+        if (!IsPlayer) QueueFree();
+        else Visible = false;
     }
 
     // move all elements from other to this, leaving other empty
