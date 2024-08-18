@@ -138,12 +138,15 @@ public partial class World : Node2D
         {
             throw new Exception("null instruction");
         };
+        
+        Automaton automaton = automatonScene.Instantiate<Automaton>();
+        automaton.GridTileSize = playerAutomaton.GridTileSize;
+        automaton.Plunder(playerAutomaton);
+        AddChild(automaton);
 
         Grid.Element element = GetCurrentGrid().GetElement(playerAutomaton.GridCoordinate);
-        element.Automaton = null;
-        // Automaton automaton = automatonScene.Instantiate<Automaton>();
-        // automaton.Plunder(playerAutomaton);
-        // AddChild(automaton);
+        // overwrite position
+        element.Automaton = automaton;
 
         playerAutomaton.Instructions = instructions;
         playerAutomaton.Visible = true;
@@ -271,7 +274,7 @@ public partial class World : Node2D
                     }
                     else
                     {
-                        GD.Print("Automaton ", targetAutomaton, " is moved (pushed)");
+                        GD.Print("Automaton ", targetAutomaton, " is moved (pushed by "+thisAutomaton+")");
                         targetAutomaton.PreparedAction = thisAutomaton.PreparedAction;
                         targetTile.Automaton = null;
                         resolved = false;

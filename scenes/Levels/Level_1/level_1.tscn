@@ -18,6 +18,5 @@ cycleTimeSec = 0.5
 [node name="Grid" type="Node2D" parent="."]
 
 [node name="PlayerAutomaton" parent="." instance=ExtResource("3_m7cy6")]
-IsPlayer = false
 
 [node name="Camera2D" type="Camera2D" parent="PlayerAutomaton"]

@@ -39,7 +39,6 @@ public partial class Automaton : Node2D
         Rotation = CardinalDirections.ToVector(Direction).Angle();
         birthCycle = currentCycle;
         instructionIndexCurrent = 0;
-        GD.Print(GridCoordinate, GlobalPosition);
     }
 
     public IAction ReadInstruction(Grid game)
@@ -55,7 +54,6 @@ public partial class Automaton : Node2D
         while (action == null && remainingIterations-- > 0)
         {
             IInstruction instruction = Instructions[instructionIndexCurrent];
-            GD.Print("Execute ", instructionIndexCurrent);
 
             // too much effort to solve this nicely
             if (instruction == null)
@@ -207,6 +205,9 @@ public partial class Automaton : Node2D
     // move all elements from other to this, leaving other empty
     public void Plunder(Automaton otherAutomaton)
     {
+        otherAutomaton.movementTween?.Kill();
+        otherAutomaton.rotationTween?.Kill();
+
         Instructions = otherAutomaton.Instructions;
         otherAutomaton.Instructions = new List<IInstruction>();
 
@@ -219,5 +220,10 @@ public partial class Automaton : Node2D
         GridCoordinate = otherAutomaton.GridCoordinate;
         otherAutomaton.GridCoordinate = Vector2I.Zero;
         Direction = otherAutomaton.Direction;
+
+        PreparedAction = otherAutomaton.PreparedAction;
+
+        GlobalPosition = GridCoordinate * GridTileSize;
+        Rotation = CardinalDirections.ToVector(Direction).Angle();
     }
 }
