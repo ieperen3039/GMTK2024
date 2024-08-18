@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 
@@ -19,7 +21,9 @@ public partial class World : Node2D
     public PackedScene GridTileScene;
 
     [Export]
-    private Automaton tmp_player;
+    private Automaton playerAutomaton;
+    [Export]
+    private PackedScene automatonScene;
 
 
     [Export]
@@ -31,15 +35,21 @@ public partial class World : Node2D
     private int ySize;
     private int currentGridIdx = 0;
 
+    private RandomNumberGenerator rng;
+
     private double cycleCooldownSec;
     private long currentCycleIndex;
+    private IList<Vector2I> spawnPositions = new List<Vector2I>();
+
+    public bool Suspend { get; internal set; }
 
 
     public override void _Ready()
     {
         layout = Image.LoadFromFile("res://assets/levels/level_1.png");
-        // cycleCooldownSec = cycleTimeSec;
-        cycleCooldownSec = double.MaxValue;
+        cycleCooldownSec = cycleTimeSec;
+        // cycleCooldownSec = double.MaxValue;
+        rng = new RandomNumberGenerator();
 
         grids = new Grid[NumGridBuffers];
         xSize = layout.GetWidth();
@@ -54,8 +64,6 @@ public partial class World : Node2D
 
         // https://github.com/godotengine/godot/issues/65761
         // lock (layout)
-
-        Vector2I spawnPosition = new Vector2I(100, 100);
 
         for (int y = 0; y < ySize; y++)
         {
@@ -76,7 +84,7 @@ public partial class World : Node2D
                         }
                         case SPAWN_COLOR: {
                             gridTile.tileType = GridTileType.SPAWN;
-                            spawnPosition = new Vector2I(x, y);
+                            spawnPositions.Add(new Vector2I(x, y));
                             break;
                         }
                         case GOAL_COLOR: {
@@ -97,14 +105,29 @@ public partial class World : Node2D
             }
         }
 
-        // temporary
-        Spawn(tmp_player, spawnPosition);
+        Spawn(playerAutomaton, spawnPositions[0]);
+        GD.Print("Starting cycle every ", cycleTimeSec, " seconds");
+    }
+
+    public void SpawnPlayer(IList<IInstruction> instructions)
+    {
+        if (instructions.Any((i) => i == null)){
+            throw new Exception("null instruction");
+        };
+
+        Automaton automaton = automatonScene.Instantiate<Automaton>();
+        automaton.Plunder(playerAutomaton);
+        AddChild(automaton);
+
+        playerAutomaton.Instructions = instructions;
+
+        int targetSpawnIndex = rng.RandiRange(0, spawnPositions.Count - 1);
+        Spawn(playerAutomaton, spawnPositions[targetSpawnIndex]);
     }
 
     private void Spawn(Automaton automaton, Vector2I spawnPosition)
     {
-        // TODO randomize position + direction
-        automaton.Spawn(spawnPosition, CardinalDirection.NORTH, currentCycleIndex);
+        automaton.Spawn(spawnPosition, CardinalDirections.Random(rng), currentCycleIndex);
         GetCurrentGrid().GetElement(automaton.GridCoordinate).Automaton = automaton;
     }
 
@@ -122,13 +145,22 @@ public partial class World : Node2D
 
         if (Input.IsActionJustPressed("execute"))
         {
-            GD.Print("Starting cycle every ", cycleTimeSec, " seconds");
-            cycleCooldownSec = 0;
+            if (cycleCooldownSec <= cycleTimeSec)
+            {
+                GD.Print("Cycle disabled");
+                cycleCooldownSec = double.PositiveInfinity;
+            }
+            else
+            {
+                GD.Print("Starting cycle every ", cycleTimeSec, " seconds");
+                cycleCooldownSec = 0;
+            }
         }
     }
 
     public void RunCycle()
     {
+        GD.Print("RunCycle");
         // collect intentions
         Grid currentGrid = GetCurrentGrid();
 
@@ -197,4 +229,13 @@ public partial class World : Node2D
 
     private Grid GetCurrentGrid() => grids[currentGridIdx];
     private Grid GetFutureGrid() => grids[(currentGridIdx + 1) % NumGridBuffers];
+
+    public void SetActive(bool aToActive)
+    {
+        Visible = aToActive;
+        SetProcess(aToActive);
+
+        // reset cycle to start of cycle
+        if (aToActive) cycleCooldownSec = cycleTimeSec;
+    }
 }

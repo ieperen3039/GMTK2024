@@ -6,11 +6,12 @@
 
 [sub_resource type="Image" id="Image_ssry4"]
 
-[node name="Level1" type="Node2D" node_paths=PackedStringArray("tmp_player")]
+[node name="Level1" type="Node2D" node_paths=PackedStringArray("playerAutomaton")]
 script = ExtResource("1_4c806")
 layout = SubResource("Image_ssry4")
 GridTileScene = ExtResource("2_gqhja")
-tmp_player = NodePath("Automaton")
+playerAutomaton = NodePath("Automaton")
+cycleTimeSec = 0.5
 
 [node name="Grid" type="Node2D" parent="."]
 

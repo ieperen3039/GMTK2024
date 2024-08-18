@@ -1,4 +1,5 @@
 // order is chosen to reflect incrementing the angle of the sprite
+using System;
 using Godot;
 
 public enum CardinalDirection
@@ -11,6 +12,14 @@ public enum CardinalDirection
 
 public class CardinalDirections
 {
+    public static CardinalDirection Random() => Random(new RandomNumberGenerator());
+
+    public static CardinalDirection Random(RandomNumberGenerator randomNumberGenerator) {
+        Array array = Enum.GetValues(typeof(CardinalDirection));
+        int index = randomNumberGenerator.RandiRange(0, array.Length - 1);
+        return (CardinalDirection) array.GetValue(index);
+    }
+
     public static Vector2I ToVectorI(in CardinalDirection aDirection)
     {
         return aDirection switch

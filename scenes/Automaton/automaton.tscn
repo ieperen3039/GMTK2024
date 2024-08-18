@@ -1,14 +1,16 @@
 [gd_scene load_steps=3 format=3 uid="uid://dvcjrfnssr6p5"]
 
-[ext_resource type="Texture2D" uid="uid://b87b23jb5ff4p" path="res://icon.svg" id="1_4bumw"]
 [ext_resource type="Script" path="res://scenes/Automaton/Automaton.cs" id="1_mknad"]
+[ext_resource type="Texture2D" uid="uid://b7yw72w1wekqd" path="res://assets/entities/entity_tilemap.png" id="2_6pryt"]
 
 [node name="Automaton" type="Node2D"]
-scale = Vector2(0.5, 0.5)
 script = ExtResource("1_mknad")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
 rotation = 1.5708
-texture = ExtResource("1_4bumw")
+texture = ExtResource("2_6pryt")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

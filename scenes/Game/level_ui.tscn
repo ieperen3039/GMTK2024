@@ -1,0 +1,55 @@
+[gd_scene load_steps=3 format=3 uid="uid://ctg20tedj4fpn"]
+
+[ext_resource type="Theme" uid="uid://bklj5gh5a54fs" path="res://assets/themes/yellow_theme.theme" id="1_8nio7"]
+[ext_resource type="Script" path="res://scenes/Game/LevelUi.cs" id="1_qkpve"]
+
+[node name="LevelUi" type="Control"]
+top_level = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qkpve")
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+theme = ExtResource("1_8nio7")
+
+[node name="ToEditorButton" type="Button" parent="Panel/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Open Editor"
+
+[node name="Reset" type="Button" parent="Panel/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Reset Automaton
+"
+
+[node name="Filler" type="Control" parent="Panel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MenuButton" type="Button" parent="Panel/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Options"
+
+[connection signal="pressed" from="Panel/MarginContainer/HBoxContainer/ToEditorButton" to="." method="OnToEditorPressed"]
+[connection signal="pressed" from="Panel/MarginContainer/HBoxContainer/Reset" to="." method="OnResetPlayerPressed"]
+[connection signal="pressed" from="Panel/MarginContainer/HBoxContainer/MenuButton" to="." method="OnOpenMenuPressed"]

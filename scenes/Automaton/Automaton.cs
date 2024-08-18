@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public partial class Automaton : Node2D
 {
+    private const int TexturePixelSize = 16;
+
     [Export]
     public int GridTileSize = 64;
 
@@ -19,7 +21,7 @@ public partial class Automaton : Node2D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-
+        Scale = new Vector2(GridTileSize / TexturePixelSize, GridTileSize / TexturePixelSize);
     }
 
     public void Spawn(Vector2I aGridCoordinate, CardinalDirection aDirection, long currentCycle)
@@ -29,6 +31,8 @@ public partial class Automaton : Node2D
         Direction = aDirection;
         Rotation = CardinalDirections.ToVector(Direction).Angle();
         birthCycle = currentCycle;
+        instructionIndexCurrent = 0;
+        GD.Print(GridCoordinate, GlobalPosition);
     }
 
     public IAction ReadInstruction(Grid game)
@@ -52,7 +56,11 @@ public partial class Automaton : Node2D
             IInstruction instruction = Instructions[instructionIndexCurrent];
 
             // too much effort to solve this nicely
-            if (instruction is CheckInstruction checkInstruction)
+            if (instruction == null)
+            {
+                throw new Exception("Instruction " + instructionIndexCurrent + " is null, out of" + Instructions.Count);
+            }
+            else if (instruction is CheckInstruction checkInstruction)
             {
                 bool success = ExecuteCheck(checkInstruction, game);
                 if (success)
@@ -60,7 +68,7 @@ public partial class Automaton : Node2D
                     instructionIndexCurrent = checkInstruction.TargetId;
                 }
             }
-            if (instruction is JumpInstruction jumpInstruction)
+            else if (instruction is JumpInstruction jumpInstruction)
             {
                 instructionIndexCurrent = jumpInstruction.TargetId;
             }
@@ -164,4 +172,20 @@ public partial class Automaton : Node2D
         // TODO
     }
 
+    // move all elements from other to this, leaving other empty
+    public void Plunder(Automaton otherAutomaton)
+    {
+        Instructions = otherAutomaton.Instructions;
+        otherAutomaton.Instructions = new List<IInstruction>();
+
+        instructionIndexCurrent = otherAutomaton.instructionIndexCurrent;
+        otherAutomaton.instructionIndexCurrent = 0;
+
+        birthCycle = otherAutomaton.birthCycle;
+        otherAutomaton.birthCycle = 0;
+
+        GridCoordinate = otherAutomaton.GridCoordinate;
+        otherAutomaton.GridCoordinate = Vector2I.Zero;
+        Direction = otherAutomaton.Direction;
+    }
 }
