@@ -5,9 +5,9 @@ using System.Collections.Generic;
 public partial class Automaton : Node2D
 {
     [Export]
-    public int GridSize = 100;
+    public int GridTileSize = 64;
 
-    public Vector2I CoordinatePosition;
+    public Vector2I GridCoordinate;
     public CardinalDirection Direction;
     public IList<IAction> PreparedActions = new List<IAction>();
     public IList<IInstruction> Instructions = new List<IInstruction>();
@@ -22,9 +22,10 @@ public partial class Automaton : Node2D
 
     }
 
-    public void Spawn(Vector2I aPosition, CardinalDirection aDirection, long currentCycle)
+    public void Spawn(Vector2I aGridCoordinate, CardinalDirection aDirection, long currentCycle)
     {
-        CoordinatePosition = aPosition;
+        GridCoordinate = aGridCoordinate;
+        GlobalPosition = GridCoordinate * GridTileSize;
         Direction = aDirection;
         Rotation = CardinalDirections.ToVector(Direction).Angle();
         birthCycle = currentCycle;
@@ -90,7 +91,7 @@ public partial class Automaton : Node2D
 
     public void MoveGrid(Vector2I direction)
     {
-        Translate(direction * GridSize);
+        Translate(direction * GridTileSize);
     }
 
 
@@ -154,7 +155,7 @@ public partial class Automaton : Node2D
             _ => vector,
         };
 
-        return CoordinatePosition + unrotated;
+        return GridCoordinate + unrotated;
     }
 
     public void Die()

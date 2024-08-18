@@ -55,6 +55,8 @@ public partial class World : Node2D
         // https://github.com/godotengine/godot/issues/65761
         // lock (layout)
 
+        Vector2I spawnPosition = new Vector2I(100, 100);
+
         for (int y = 0; y < ySize; y++)
         {
             for (int x = 0; x < xSize; x++)
@@ -74,6 +76,7 @@ public partial class World : Node2D
                         }
                         case SPAWN_COLOR: {
                             gridTile.tileType = GridTileType.SPAWN;
+                            spawnPosition = new Vector2I(x, y);
                             break;
                         }
                         case GOAL_COLOR: {
@@ -95,14 +98,14 @@ public partial class World : Node2D
         }
 
         // temporary
-        Spawn(tmp_player);
+        Spawn(tmp_player, spawnPosition);
     }
 
-    private void Spawn(Automaton automaton)
+    private void Spawn(Automaton automaton, Vector2I spawnPosition)
     {
         // TODO randomize position + direction
-        automaton.Spawn(new Vector2I(25, 25), CardinalDirection.NORTH, currentCycleIndex);
-        GetCurrentGrid().GetElement(automaton.CoordinatePosition).Automaton = automaton;
+        automaton.Spawn(spawnPosition, CardinalDirection.NORTH, currentCycleIndex);
+        GetCurrentGrid().GetElement(automaton.GridCoordinate).Automaton = automaton;
     }
 
     public override void _Process(double aDelta)
@@ -146,7 +149,7 @@ public partial class World : Node2D
             if (sourceGridElement.Automaton != null)
             {
                 Automaton automaton = sourceGridElement.Automaton;
-                Vector2I targetPosition = automaton.CoordinatePosition;
+                Vector2I targetPosition = automaton.GridCoordinate;
                 foreach (IAction action in automaton.PreparedActions)
                 {
                     targetPosition += action.GetRelativeMovement();
@@ -164,13 +167,13 @@ public partial class World : Node2D
                 sourceGridElement.Automaton = null;
 
                 // execute actions
-                Vector2I newPosition = automaton.CoordinatePosition;
+                Vector2I newPosition = automaton.GridCoordinate;
                 foreach (IAction action in automaton.PreparedActions)
                 {
                     action.Execute(automaton);
                     newPosition += action.GetRelativeMovement();
                 }
-                automaton.CoordinatePosition = newPosition;
+                automaton.GridCoordinate = newPosition;
 
                 // add to the new place
                 Grid.Element targetGridElement = GetFutureGrid().GetElement(newPosition);
