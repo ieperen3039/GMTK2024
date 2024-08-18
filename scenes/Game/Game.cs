@@ -15,6 +15,8 @@ public partial class Game : Node2D
 
     private ProgramList instructionList;
 
+    private int currentLevel = 0;
+
     public override void _Ready()
     {
         instructionList = programEditor.GetNode<ProgramList>("%InstructionList");
@@ -25,7 +27,9 @@ public partial class Game : Node2D
         programEditor.GetNode<Button>("%StartButton").Pressed += LoadInstructions;
         programEditor.GetNode<Button>("%CancelButton").Pressed += ToLevelScene;
         optionsMenu.GetNode<Button>("%BackButton").Pressed += ToLevelScene;
+        level.LevelCompleted += LoadNextLevel;
 
+        LoadNextLevel();
         ToLevelScene();
     }
 
@@ -33,6 +37,13 @@ public partial class Game : Node2D
     {
         level.SpawnPlayer(instructionList.GetInstructions());
         ToLevelScene();
+    }
+
+    private void LoadNextLevel() 
+    {
+        currentLevel += 1;
+        string levelResString = string.Format("res://assets/levels/level_{}.png", currentLevel);
+        GD.Print("Loading next level: ", currentLevel);
     }
 
 
