@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://ih0ogwl127qt"]
+
+[ext_resource type="Texture2D" uid="uid://qs2i616ban6h" path="res://assets/command_icons/command_icons.png" id="1_61jgc"]
+[ext_resource type="Script" path="res://scenes/CommandIcon/CommandIcon.cs" id="2_0esxq"]
+
+[node name="CommandIcon" type="Sprite2D"]
+texture_filter = 1
+texture = ExtResource("1_61jgc")
+hframes = 8
+vframes = 8
+region_enabled = true
+region_rect = Rect2(0, 0, 128, 128)
+script = ExtResource("2_0esxq")
+commandIconType = 8
