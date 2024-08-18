@@ -26,21 +26,34 @@ public partial class ProgramList : Panel
     public IList<IInstruction> GetInstructions()
     {
         IList<IInstruction> instructions = new List<IInstruction>();
-        int instructionIndex = 0;
-        
+
         foreach (Node child in instructionList.GetChildren())
         {
             if (child is InstructionWrapperSupport wrapper)
             {
                 // change TargetId to be the index instead
-                if (wrapper.Instruction is JumpInstruction jumpInstr) {
-                    jumpInstr.TargetId = instructionIndex++;
+                if (wrapper.Instruction is JumpInstruction jumpInstr)
+                {
+                    int i = 0;
+                    foreach (Node other in instructionList.GetChildren())
+                    {
+                        if (other is InstructionWrapperSupport otherWrapper)
+                        {
+                            if (otherWrapper.Id == jumpInstr.TargetId)
+                            {
+                                jumpInstr.TargetId = i;
+                                break;
+                            }
+                            i++;
+                        }
+                    }
                 }
 
                 instructions.Add(wrapper.Instruction);
             }
+
         }
-        
+
         return instructions;
     }
 

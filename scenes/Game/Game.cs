@@ -31,6 +31,7 @@ public partial class Game : Node2D
 
     private void LoadInstructions()
     {
+        
         level.SpawnPlayer(instructionList.GetInstructions());
         ToLevelScene();
     }
