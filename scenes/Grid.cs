@@ -38,6 +38,7 @@ public class Grid : IEnumerable<Grid.Element>
     {
         public bool HasFloor = true;
         public bool IsWall = false;
+        public bool IsGoal = false;
         public Automaton Automaton = null;
         public int numReservations = 0;
 
