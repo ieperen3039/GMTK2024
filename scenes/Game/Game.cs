@@ -15,7 +15,7 @@ public partial class Game : Node2D
 
     private ProgramList instructionList;
 
-    private int currentLevel = 0;
+    private int currentLevel = 1;
 
     public override void _Ready()
     {
@@ -29,7 +29,7 @@ public partial class Game : Node2D
         optionsMenu.GetNode<Button>("%BackButton").Pressed += ToLevelScene;
         level.LevelCompleted += LoadNextLevel;
 
-        LoadNextLevel();
+        // LoadNextLevel();
         ToLevelScene();
     }
 
@@ -42,9 +42,12 @@ public partial class Game : Node2D
 
     private void LoadNextLevel() 
     {
+        GD.Print("  >>> Load next level function");
         currentLevel += 1;
-        string levelResString = string.Format("res://assets/levels/level_{}.png", currentLevel);
-        GD.Print("Loading next level: ", currentLevel);
+        string levelResString = string.Format("res://assets/levels/level_{0}.png", currentLevel);
+        GD.Print("  >>> Loading next level: ", levelResString);
+        level.SetLevel(levelResString);
+        level.ReloadWorld();
     }
 
 

@@ -46,6 +46,11 @@ public partial class World : Node2D
     private IList<Vector2I> spawnPositions = new List<Vector2I>();
 
     public bool Suspend { get; internal set; }
+
+    public void SetLevel(string aLevelString) {
+        layout = Image.LoadFromFile(aLevelString);
+    }
+
     public override void _Ready()
     {
         ReloadWorld();
