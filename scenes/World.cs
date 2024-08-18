@@ -23,6 +23,8 @@ public partial class World : Node2D
     private Image layout_level_2;
     [Export]
     private Image layout_level_3;
+    [Export]
+    private Image layout_level_4;
 
     [Export]
     public PackedScene GridTileScene;

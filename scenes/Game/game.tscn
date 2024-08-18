@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://ci4duj88wasqg"]
+[gd_scene load_steps=10 format=3 uid="uid://ci4duj88wasqg"]
 
 [ext_resource type="PackedScene" uid="uid://bq0abb4awf374" path="res://scenes/Levels/Level_1/level_1.tscn" id="1_1mdw4"]
 [ext_resource type="Script" path="res://scenes/Game/Game.cs" id="1_hmets"]
@@ -7,7 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://ctg20tedj4fpn" path="res://scenes/Game/level_ui.tscn" id="3_npsnj"]
 [ext_resource type="Image" uid="uid://b5jyqa7lyrqgu" path="res://assets/levels/level_2.png" id="4_royg8"]
 [ext_resource type="Image" uid="uid://c26tugvnhv0bk" path="res://assets/levels/level_3.png" id="5_2e3vn"]
-[ext_resource type="PackedScene" uid="uid://cjxnu2jmf2lvh" path="res://scenes/Game/options_menu.tscn" id="5_ye4n1"]
+[ext_resource type="PackedScene" path="res://scenes/Game/options_menu.tscn" id="5_ye4n1"]
+[ext_resource type="Image" uid="uid://3u4011o1fraa" path="res://assets/levels/level_4.png" id="6_4ujxy"]
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("programEditor", "levelUi", "level", "optionsMenu")]
 script = ExtResource("1_hmets")
@@ -21,6 +22,7 @@ layout = ExtResource("3_3hpla")
 layout_level_1 = ExtResource("3_3hpla")
 layout_level_2 = ExtResource("4_royg8")
 layout_level_3 = ExtResource("5_2e3vn")
+layout_level_4 = ExtResource("6_4ujxy")
 
 [node name="OverlayUI" type="CanvasLayer" parent="."]
 
