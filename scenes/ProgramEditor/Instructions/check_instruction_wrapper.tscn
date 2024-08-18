@@ -1,0 +1,136 @@
+[gd_scene load_steps=6 format=3 uid="uid://cssx5x88bx3n0"]
+
+[ext_resource type="StyleBox" uid="uid://c7yhrt0rorx48" path="res://assets/themes/style_logic.tres" id="1_yj4sc"]
+[ext_resource type="Script" path="res://scenes/ProgramEditor/Instructions/CheckInstructionWrapper.cs" id="2_2hpwy"]
+[ext_resource type="StyleBox" uid="uid://bw3xk1dlk8pwg" path="res://assets/themes/mini_checkbox_style.tres" id="3_2ds0v"]
+[ext_resource type="Texture2D" uid="uid://b87b23jb5ff4p" path="res://icon.svg" id="3_50p7u"]
+
+[sub_resource type="Theme" id="Theme_fas7j"]
+CheckBox/styles/disabled = ExtResource("3_2ds0v")
+CheckBox/styles/focus = ExtResource("3_2ds0v")
+CheckBox/styles/hover = ExtResource("3_2ds0v")
+CheckBox/styles/hover_pressed = ExtResource("3_2ds0v")
+CheckBox/styles/normal = ExtResource("3_2ds0v")
+CheckBox/styles/pressed = ExtResource("3_2ds0v")
+
+[node name="InstructionPanel" type="Panel" node_paths=PackedStringArray("whatToCheckSelector", "lineEdit", "NameLabel")]
+custom_minimum_size = Vector2(200, 80)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("1_yj4sc")
+script = ExtResource("2_2hpwy")
+whatToCheckSelector = NodePath("MarginContainer/BoxContainer/VBoxContainer/OptionButton")
+lineEdit = NodePath("MarginContainer/BoxContainer/SpinBox")
+NameLabel = NodePath("MarginContainer/BoxContainer/VBoxContainer/Text")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="BoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Text" type="Label" parent="MarginContainer/BoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Check
+"
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/BoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="MarginContainer/BoxContainer"]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/BoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_fas7j")
+columns = 3
+
+[node name="CheckBox" type="CheckBox" parent="MarginContainer/BoxContainer/Panel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="CheckBox2" type="CheckBox" parent="MarginContainer/BoxContainer/Panel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="CheckBox3" type="CheckBox" parent="MarginContainer/BoxContainer/Panel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="CheckBox4" type="CheckBox" parent="MarginContainer/BoxContainer/Panel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="AutomatonIndicator" type="TextureRect" parent="MarginContainer/BoxContainer/Panel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("3_50p7u")
+expand_mode = 2
+
+[node name="CheckBox6" type="CheckBox" parent="MarginContainer/BoxContainer/Panel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="CheckBox7" type="CheckBox" parent="MarginContainer/BoxContainer/Panel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="CheckBox8" type="CheckBox" parent="MarginContainer/BoxContainer/Panel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="CheckBox9" type="CheckBox" parent="MarginContainer/BoxContainer/Panel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="SpinBox" type="SpinBox" parent="MarginContainer/BoxContainer"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+size_flags_vertical = 3
+rounded = true
+allow_greater = true
+
+[connection signal="item_selected" from="MarginContainer/BoxContainer/VBoxContainer/OptionButton" to="." method="OnWhatToCheckChange"]
+[connection signal="toggled" from="MarginContainer/BoxContainer/Panel/GridContainer/CheckBox" to="." method="OnToggle" binds= [1, 1]]
+[connection signal="toggled" from="MarginContainer/BoxContainer/Panel/GridContainer/CheckBox2" to="." method="OnToggle" binds= [1, 0]]
+[connection signal="toggled" from="MarginContainer/BoxContainer/Panel/GridContainer/CheckBox3" to="." method="OnToggle" binds= [1, -1]]
+[connection signal="toggled" from="MarginContainer/BoxContainer/Panel/GridContainer/CheckBox4" to="." method="OnToggle" binds= [0, 1]]
+[connection signal="toggled" from="MarginContainer/BoxContainer/Panel/GridContainer/CheckBox6" to="." method="OnToggle" binds= [0, -1]]
+[connection signal="toggled" from="MarginContainer/BoxContainer/Panel/GridContainer/CheckBox7" to="." method="OnToggle" binds= [-1, 1]]
+[connection signal="toggled" from="MarginContainer/BoxContainer/Panel/GridContainer/CheckBox8" to="." method="OnToggle" binds= [-1, 0]]
+[connection signal="toggled" from="MarginContainer/BoxContainer/Panel/GridContainer/CheckBox9" to="." method="OnToggle" binds= [-1, -1]]

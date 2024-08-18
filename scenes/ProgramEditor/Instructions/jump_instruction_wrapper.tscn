@@ -1,28 +1,45 @@
-[gd_scene load_steps=2 format=3 uid="uid://cjq2gasgext7i"]
+[gd_scene load_steps=3 format=3 uid="uid://cjq2gasgext7i"]
 
-[ext_resource type="StyleBox" uid="uid://cbiobrj3col8r" path="res://assets/themes/yellow_style_s.tres" id="1_gig3f"]
+[ext_resource type="StyleBox" uid="uid://c7yhrt0rorx48" path="res://assets/themes/style_logic.tres" id="1_2qdb4"]
+[ext_resource type="Script" path="res://scenes/ProgramEditor/Instructions/JumpInstructionWrapper.cs" id="2_s1yot"]
 
-[node name="InstructionPanel" type="Panel"]
-custom_minimum_size = Vector2(400, 40)
+[node name="InstructionPanel" type="Panel" node_paths=PackedStringArray("lineEdit", "NameLabel")]
+custom_minimum_size = Vector2(200, 40)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = ExtResource("1_gig3f")
+theme_override_styles/panel = ExtResource("1_2qdb4")
+script = ExtResource("2_s1yot")
+lineEdit = NodePath("MarginContainer/BoxContainer/SpinBox")
+NameLabel = NodePath("MarginContainer/BoxContainer/Text")
 
-[node name="Text" type="Label" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.053
-anchor_top = 0.189
-anchor_right = 0.947
-anchor_bottom = 0.811
-offset_left = 0.106999
-offset_top = -0.993001
-offset_right = -0.106995
-offset_bottom = -0.00700188
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "<instruction name>
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="BoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Text" type="Label" parent="MarginContainer/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Jump to Instruction
 "
+
+[node name="SpinBox" type="SpinBox" parent="MarginContainer/BoxContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+size_flags_vertical = 3
+
+[connection signal="value_changed" from="MarginContainer/BoxContainer/SpinBox" to="." method="OnJumpTargetChange"]

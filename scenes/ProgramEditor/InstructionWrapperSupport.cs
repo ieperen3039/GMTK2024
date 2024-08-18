@@ -12,8 +12,10 @@ public partial class InstructionWrapperSupport : Panel
 
     [Export]
     private Control instructionWrapperTarget;
+    [Export]
+    private Label idLabel;
 
-    public int Id;
+    public int Id { get; private set; }
 
     public IInstruction Instruction { get; private set; }
 
@@ -39,6 +41,15 @@ public partial class InstructionWrapperSupport : Panel
     internal void SetContent(InstructionWrapper wrapper)
     {
         Instruction = wrapper.Instruction;
+        // 12 is 2x the visual border (it depends on the button graphics)
+        CustomMinimumSize = new Vector2(CustomMinimumSize.X, wrapper.CustomMinimumSize.Y + 12);
         instructionWrapperTarget.AddChild(wrapper);
     }
+
+    internal void SetId(int newId)
+    {
+        Id = newId;
+        idLabel.Text = Id.ToString();
+    }
+
 }
