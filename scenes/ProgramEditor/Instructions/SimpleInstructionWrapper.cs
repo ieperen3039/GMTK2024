@@ -15,18 +15,13 @@ public partial class SimpleInstructionWrapper : InstructionWrapper
     [Export]
     public InstructionType Type;
 
-    public override void _Ready()
+    public override IInstruction GetInstruction() => Type switch
     {
-        base._Ready();
-        
-        Instruction = Type switch
-        {
-            InstructionType.WAIT => new WaitInstruction(),
-            InstructionType.FORWARD => new ForwardInstruction(),
-            InstructionType.BACKWARD => new BackwardInstruction(),
-            InstructionType.TURN_LEFT => new TurnLeftInstruction(),
-            InstructionType.TURN_RIGHT => new TurnRightInstruction(),
-            _ => throw new Exception("Unhandled instruction type " + Type),
-        };
-    }
+        InstructionType.WAIT => new WaitInstruction(),
+        InstructionType.FORWARD => new ForwardInstruction(),
+        InstructionType.BACKWARD => new BackwardInstruction(),
+        InstructionType.TURN_LEFT => new TurnLeftInstruction(),
+        InstructionType.TURN_RIGHT => new TurnRightInstruction(),
+        _ => throw new Exception("Unhandled instruction type " + Type),
+    };
 }

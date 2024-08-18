@@ -2,12 +2,12 @@
 using System;
 using Godot;
 
-public partial class InstructionWrapper : Panel
+public abstract partial class InstructionWrapper : Panel
 {
     [Export]
     private Label NameLabel;
 
-    public IInstruction Instruction;
+    public abstract IInstruction GetInstruction();
 
     public string DisplayName => NameLabel.Text;
 }

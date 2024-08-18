@@ -1,10 +1,14 @@
 using Godot;
 using System;
 
-public partial class CheckInstructionWrapper : JumpInstructionWrapper
+public partial class CheckInstructionWrapper : InstructionWrapper
 {
     [Export]
     private OptionButton whatToCheckSelector;
+
+    private CheckInstruction instruction = new();
+
+    public override IInstruction GetInstruction() => instruction;
 
     public override void _Ready()
     {
@@ -16,19 +20,18 @@ public partial class CheckInstructionWrapper : JumpInstructionWrapper
         whatToCheckSelector.ItemSelected += OnWhatToCheckChange;
     }
 
+    private void OnJumpTargetChange(double value)
+    {
+        instruction.TargetId = (int)value;
+    }
+
     private void OnToggle(bool aSetActive, long forwardSteps, long leftSteps)
     {
-        if (Instruction is CheckInstruction checkInstruction)
-        {
-            checkInstruction.SetActive((int)forwardSteps, (int)leftSteps, aSetActive);
-        }
+        instruction.SetActive((int)forwardSteps, (int)leftSteps, aSetActive);
     }
 
     private void OnWhatToCheckChange(long index)
     {
-        if (Instruction is CheckInstruction checkInstruction)
-        {
-            checkInstruction.ThingToCheck = (CheckInstruction.WhatToCheck)index;
-        }
+        instruction.ThingToCheck = (CheckInstruction.WhatToCheck)index;
     }
 }

@@ -40,10 +40,17 @@ public partial class InstructionWrapperSupport : Panel
 
     internal void SetContent(InstructionWrapper wrapper)
     {
-        Instruction = wrapper.Instruction;
         // 12 is 2x the visual border (it depends on the button graphics)
         CustomMinimumSize = new Vector2(CustomMinimumSize.X, wrapper.CustomMinimumSize.Y + 12);
         instructionWrapperTarget.AddChild(wrapper);
+
+        // AFTER add child, or the SimpleInstruction doesnt know its instruction yet
+        Instruction = wrapper.GetInstruction();
+
+        if (Instruction == null)
+        {
+            throw new Exception("Null instruction");
+        }
     }
 
     internal void SetId(int newId)

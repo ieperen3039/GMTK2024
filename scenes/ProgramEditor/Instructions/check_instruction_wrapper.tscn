@@ -134,3 +134,4 @@ allow_greater = true
 [connection signal="toggled" from="MarginContainer/BoxContainer/Panel/GridContainer/CheckBox7" to="." method="OnToggle" binds= [-1, 1]]
 [connection signal="toggled" from="MarginContainer/BoxContainer/Panel/GridContainer/CheckBox8" to="." method="OnToggle" binds= [-1, 0]]
 [connection signal="toggled" from="MarginContainer/BoxContainer/Panel/GridContainer/CheckBox9" to="." method="OnToggle" binds= [-1, -1]]
+[connection signal="value_changed" from="MarginContainer/BoxContainer/SpinBox" to="." method="OnJumpTargetChange"]

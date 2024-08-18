@@ -77,34 +77,40 @@ public partial class World : Node2D
                     Grid.Element element = new();
                     GridTile gridTile = GridTileScene.Instantiate<GridTile>();
 
-                    switch(color.ToHtml()) {
-                        case GAP_COLOR:{
-                            element.HasFloor = false;
-                            gridTile.tileType = GridTileType.GAP;
-                            break;
-                        }
-                        case SPAWN_COLOR: {
-                            gridTile.tileType = GridTileType.SPAWN;
-                            spawnPositions.Add(new Vector2I(x, y));
-                            break;
-                        }
-                        case GOAL_COLOR: {
-                            gridTile.tileType = GridTileType.GOAL;
-                            break;
-                        }
-                        case WALL_COLOR: {
-                            gridTile.tileType = GridTileType.WALL;
-                            element.IsWall = true;
-                            break;
-                        }
-                        default: {
-                            gridTile.tileType = GridTileType.NORMAL;
-                            break;
-                        }
+                    switch (color.ToHtml())
+                    {
+                        case GAP_COLOR:
+                            {
+                                element.HasFloor = false;
+                                gridTile.tileType = GridTileType.GAP;
+                                break;
+                            }
+                        case SPAWN_COLOR:
+                            {
+                                gridTile.tileType = GridTileType.SPAWN;
+                                spawnPositions.Add(new Vector2I(x, y));
+                                break;
+                            }
+                        case GOAL_COLOR:
+                            {
+                                gridTile.tileType = GridTileType.GOAL;
+                                break;
+                            }
+                        case WALL_COLOR:
+                            {
+                                gridTile.tileType = GridTileType.WALL;
+                                element.IsWall = true;
+                                break;
+                            }
+                        default:
+                            {
+                                gridTile.tileType = GridTileType.NORMAL;
+                                break;
+                            }
                     }
 
                     grids[i].SetElement(x, y, element);
-                    var tilePosition = new Vector2I(x*64, y*64);
+                    var tilePosition = new Vector2I(x * 64, y * 64);
                     gridTile.Position = tilePosition;
                     GridNode.AddChild(gridTile);
                 }
@@ -117,7 +123,8 @@ public partial class World : Node2D
 
     public void SpawnPlayer(IList<IInstruction> instructions)
     {
-        if (instructions.Any((i) => i == null)){
+        if (instructions.Any((i) => i == null))
+        {
             throw new Exception("null instruction");
         };
 
@@ -222,7 +229,7 @@ public partial class World : Node2D
                 if (targetGridElement.HasFloor && !targetGridElement.IsWall)
                 {
                     targetGridElement.Automaton = automaton;
-                } 
+                }
                 else
                 {
                     automaton.Die();

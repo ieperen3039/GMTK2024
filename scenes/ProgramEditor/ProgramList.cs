@@ -90,7 +90,7 @@ public partial class ProgramList : Panel
         AddInstruction(wrapper);
     }
 
-    private void AddInstruction(InstructionWrapper instruction)
+    private void AddInstruction(InstructionWrapper wrapper)
     {
         InstructionWrapperSupport support = instructionSupport.Instantiate<InstructionWrapperSupport>();
         support.SetId(nextId++);
@@ -99,7 +99,7 @@ public partial class ProgramList : Panel
         support.InstructionDelete += InstructionDelete;
 
         // put the InstructionWrapper inside a InstructionWrapperSupport and the result into the `instructionList`
-        support.SetContent(instruction);
+        support.SetContent(wrapper);
         instructionList.AddChild(support);
     }
 }
