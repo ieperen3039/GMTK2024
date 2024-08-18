@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://f4qb31f8wo5"]
+[gd_scene load_steps=4 format=3 uid="uid://oh5u1k0dwgmy"]
 
 [ext_resource type="Theme" uid="uid://bklj5gh5a54fs" path="res://assets/themes/yellow_theme.theme" id="1_4jajp"]
 [ext_resource type="Script" path="res://scenes/ProgramEditor/InstructionWrapperSupport.cs" id="2_dx6ui"]
+[ext_resource type="PackedScene" uid="uid://ih0ogwl127qt" path="res://scenes/CommandIcon/command_icon.tscn" id="3_0hcc1"]
 
-[node name="InstructionWrapperSupportButtons" type="Panel" node_paths=PackedStringArray("instructionWrapperTarget", "idLabel")]
+[node name="InstructionWrapperSupportButtons" type="Panel" node_paths=PackedStringArray("instructionWrapperTarget", "idLabel", "commandIcon")]
 custom_minimum_size = Vector2(200, 52)
 anchors_preset = -1
 anchor_right = 0.25
@@ -14,6 +15,7 @@ theme = ExtResource("1_4jajp")
 script = ExtResource("2_dx6ui")
 instructionWrapperTarget = NodePath("HBoxContainer/InstructionWrapperTarget")
 idLabel = NodePath("HBoxContainer/Panel/Label")
+commandIcon = NodePath("HBoxContainer/TextureRect/CommandIcon")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -47,6 +49,16 @@ vertical_alignment = 1
 [node name="InstructionWrapperTarget" type="Control" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+
+[node name="CommandIcon" parent="HBoxContainer/TextureRect" instance=ExtResource("3_0hcc1")]
+position = Vector2(21.5, 20.5)
+scale = Vector2(1.9375, 1.9375)
+commandIconType = 0
 
 [node name="ButtonUp" type="Button" parent="HBoxContainer"]
 custom_minimum_size = Vector2(40, 40)
