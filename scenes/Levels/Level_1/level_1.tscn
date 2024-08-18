@@ -15,3 +15,6 @@ tmp_player = NodePath("Automaton")
 [node name="Grid" type="Node2D" parent="."]
 
 [node name="Automaton" parent="." instance=ExtResource("3_ijn5u")]
+GridSize = 64
+
+[node name="Camera2D" type="Camera2D" parent="Automaton"]

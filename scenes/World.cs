@@ -87,7 +87,7 @@ public partial class World : Node2D
                     }
 
                     grids[i].SetElement(x, y, element);
-                    var tilePosition = new Vector2I(x*16, y*16);
+                    var tilePosition = new Vector2I(x*64, y*64);
                     gridTile.Position = tilePosition;
                     GridNode.AddChild(gridTile);
                 }

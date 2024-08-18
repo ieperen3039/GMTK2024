@@ -5,6 +5,7 @@
 
 [node name="GridTile" type="Sprite2D"]
 texture_filter = 1
+scale = Vector2(4, 4)
 texture = ExtResource("1_orxwk")
 hframes = 4
 region_enabled = true
