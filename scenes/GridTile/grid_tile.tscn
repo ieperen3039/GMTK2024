@@ -7,7 +7,7 @@
 texture_filter = 1
 scale = Vector2(4, 4)
 texture = ExtResource("1_orxwk")
-hframes = 4
+hframes = 5
 region_enabled = true
-region_rect = Rect2(0, 0, 64, 16)
+region_rect = Rect2(0, 0, 80, 16)
 script = ExtResource("2_76dmt")
