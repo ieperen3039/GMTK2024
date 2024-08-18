@@ -1,12 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://ci4duj88wasqg"]
+[gd_scene load_steps=7 format=3 uid="uid://ci4duj88wasqg"]
 
 [ext_resource type="PackedScene" uid="uid://bq0abb4awf374" path="res://scenes/Levels/Level_1/level_1.tscn" id="1_1mdw4"]
 [ext_resource type="Script" path="res://scenes/Game/Game.cs" id="1_hmets"]
 [ext_resource type="PackedScene" uid="uid://bqfh54tjv8ft6" path="res://scenes/ProgramEditor/program_editor.tscn" id="2_jwber"]
-[ext_resource type="PackedScene" uid="uid://dvcjrfnssr6p5" path="res://scenes/Automaton/automaton.tscn" id="3_0g32m"]
 [ext_resource type="Image" uid="uid://dbq2vrfsq8fyx" path="res://assets/levels/level_1.png" id="3_3hpla"]
-[ext_resource type="PackedScene" path="res://scenes/Game/level_ui.tscn" id="3_npsnj"]
-[ext_resource type="PackedScene" path="res://scenes/Game/options_menu.tscn" id="5_ye4n1"]
+[ext_resource type="PackedScene" uid="uid://ctg20tedj4fpn" path="res://scenes/Game/level_ui.tscn" id="3_npsnj"]
+[ext_resource type="PackedScene" uid="uid://cjxnu2jmf2lvh" path="res://scenes/Game/options_menu.tscn" id="5_ye4n1"]
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("programEditor", "levelUi", "level", "optionsMenu")]
 script = ExtResource("1_hmets")
@@ -17,7 +16,6 @@ optionsMenu = NodePath("OverlayUI/OptionsMenu")
 
 [node name="Level" parent="." instance=ExtResource("1_1mdw4")]
 layout = ExtResource("3_3hpla")
-automatonScene = ExtResource("3_0g32m")
 cycleTimeSec = 2.0
 
 [node name="OverlayUI" type="CanvasLayer" parent="."]

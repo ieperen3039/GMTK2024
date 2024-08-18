@@ -139,7 +139,7 @@ public partial class World : Node2D
 
     private void Spawn(Automaton automaton, Vector2I spawnPosition)
     {
-        automaton.Spawn(spawnPosition, CardinalDirections.Random(rng), currentCycleIndex, cycleTimeSec);
+        automaton.Spawn(spawnPosition, CardinalDirection.NORTH, currentCycleIndex, cycleTimeSec);
         GetCurrentGrid().GetElement(automaton.GridCoordinate).Automaton = automaton;
     }
 
