@@ -4,8 +4,8 @@
 [ext_resource type="Script" path="res://scenes/Game/Game.cs" id="1_hmets"]
 [ext_resource type="PackedScene" uid="uid://bqfh54tjv8ft6" path="res://scenes/ProgramEditor/program_editor.tscn" id="2_jwber"]
 [ext_resource type="Image" uid="uid://dbq2vrfsq8fyx" path="res://assets/levels/level_1.png" id="3_3hpla"]
-[ext_resource type="PackedScene" path="res://scenes/Game/level_ui.tscn" id="3_npsnj"]
-[ext_resource type="PackedScene" path="res://scenes/Game/options_menu.tscn" id="5_ye4n1"]
+[ext_resource type="PackedScene" uid="uid://ctg20tedj4fpn" path="res://scenes/Game/level_ui.tscn" id="3_npsnj"]
+[ext_resource type="PackedScene" uid="uid://cjxnu2jmf2lvh" path="res://scenes/Game/options_menu.tscn" id="5_ye4n1"]
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("programEditor", "levelUi", "level", "optionsMenu")]
 script = ExtResource("1_hmets")

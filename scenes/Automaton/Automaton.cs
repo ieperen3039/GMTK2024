@@ -60,18 +60,17 @@ public partial class Automaton : Node2D
             // too much effort to solve this nicely
             if (instruction == null)
             {
-                throw new Exception("Instruction " + instructionIndexCurrent + " is null, out of" + Instructions.Count);
+                // throw new Exception("Instruction " + instructionIndexCurrent + " is null, out of" + Instructions.Count);
+                instructionIndexCurrent = NextInstruction();
             }
             else if (instruction is CheckInstruction checkInstruction)
             {
                 bool success = ExecuteCheck(checkInstruction, game);
                 instructionIndexCurrent = success ? checkInstruction.TargetId : NextInstruction();
-                GD.Print("Success = ", success, " Jump to ", instructionIndexCurrent);
             }
             else if (instruction is JumpInstruction jumpInstruction)
             {
                 instructionIndexCurrent = jumpInstruction.TargetId;
-                GD.Print("Jump to ", jumpInstruction.TargetId);
             }
             else
             {
