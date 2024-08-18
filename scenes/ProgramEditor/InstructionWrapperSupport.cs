@@ -14,6 +14,8 @@ public partial class InstructionWrapperSupport : Panel
     private Control instructionWrapperTarget;
     [Export]
     private Label idLabel;
+    [Export]
+    private CommandIcon commandIcon;
 
     public int Id { get; private set; }
 
@@ -46,6 +48,7 @@ public partial class InstructionWrapperSupport : Panel
 
         // AFTER add child, or the SimpleInstruction doesnt know its instruction yet
         Instruction = wrapper.GetInstruction();
+        commandIcon.SetInstruction(Instruction);
 
         if (Instruction == null)
         {
