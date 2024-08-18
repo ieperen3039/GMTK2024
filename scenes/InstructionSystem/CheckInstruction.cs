@@ -7,6 +7,7 @@ public class CheckInstruction : JumpInstruction
     public enum WhatToCheck {
         AUTOMATON,
         FLOOR,
+        WALL,
     }
 
     private const int gridXForw = 3;
@@ -30,6 +31,9 @@ public class CheckInstruction : JumpInstruction
         }
         if (ThingToCheck == WhatToCheck.FLOOR && element.HasFloor)
         {
+            return true;
+        }
+        if (ThingToCheck == WhatToCheck.WALL && element.IsWall){
             return true;
         }
         return false;
