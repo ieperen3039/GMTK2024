@@ -16,6 +16,7 @@ optionsMenu = NodePath("OverlayUI/OptionsMenu")
 
 [node name="Level1" parent="." instance=ExtResource("1_1mdw4")]
 automatonScene = ExtResource("3_0g32m")
+cycleTimeSec = 2.0
 
 [node name="OverlayUI" type="CanvasLayer" parent="."]
 

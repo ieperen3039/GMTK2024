@@ -10,5 +10,5 @@ public class MoveAction : IAction
     }
 
     public Vector2I GetRelativeMovement() => RelativeMovement;
-    public void Execute(Automaton automaton) => automaton.MoveGrid(RelativeMovement);
+    public void Execute(Automaton automaton) => automaton.SetNewGridPosition(automaton.GridCoordinate + RelativeMovement);
 }

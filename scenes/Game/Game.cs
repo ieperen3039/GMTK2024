@@ -20,6 +20,7 @@ public partial class Game : Node2D
         instructionList = programEditor.GetNode<ProgramList>("%InstructionList");
 
         levelUi.ToEditorPressed += ToProgramEditorScene;
+        levelUi.ResetPlayerPressed += LoadInstructions;
         levelUi.OpenMenuPressed += OpenOptionsMenu;
         programEditor.GetNode<Button>("%StartButton").Pressed += LoadInstructions;
         programEditor.GetNode<Button>("%CancelButton").Pressed += ToLevelScene;
