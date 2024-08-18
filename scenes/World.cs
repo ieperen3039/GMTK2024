@@ -30,6 +30,9 @@ public partial class World : Node2D
     [Export]
     private double cycleTimeSec = 1;
 
+    [Signal]
+    public delegate void LevelCompletedEventHandler();
+
     // fixed-size list of nullable elements
     private Grid[] grids;
     private int xSize;
@@ -44,8 +47,16 @@ public partial class World : Node2D
 
     public bool Suspend { get; internal set; }
 
+    public void SetLevel(string aLevelString) {
+        layout = Image.LoadFromFile(aLevelString);
+    }
 
     public override void _Ready()
+    {
+        ReloadWorld();
+    }
+
+    public void ReloadWorld()
     {
         cycleCooldownSec = cycleTimeSec;
         // cycleCooldownSec = double.MaxValue;
@@ -92,6 +103,7 @@ public partial class World : Node2D
                             }
                         case GOAL_COLOR:
                             {
+                                element.IsGoal = true;
                                 gridTile.tileType = GridTileType.GOAL;
                                 break;
                             }
@@ -200,6 +212,9 @@ public partial class World : Node2D
                 {
                     automaton.Die();
                     continue;
+                } else if (tile.IsGoal) {
+                    GD.Print("Level Completed");
+                    EmitSignal(SignalName.LevelCompleted);
                 }
 
                 automaton.PreparedAction = automaton.ReadInstruction(currentGrid);
@@ -291,6 +306,11 @@ public partial class World : Node2D
                 automaton.PreparedAction.Execute(automaton);
             }
         }
+
+        // Check for win condition
+        // if(futureGrid.GetElement(playerAutomaton.GridCoordinate).IsWall) {
+        //     GD.Print("Level completed");
+        // }
 
         currentGridIdx = (currentGridIdx + 1) % NumGridBuffers;
     }
