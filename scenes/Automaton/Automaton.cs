@@ -1,19 +1,24 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 public partial class Automaton : Node2D
 {
     private const int TexturePixelSize = 16;
-
     [Export]
     public int GridTileSize = 64;
+    [Export]
+    public bool IsPlayer = false;
+
+    public double CycleTimeSec = 0.5f;
 
     public Vector2I GridCoordinate;
     public CardinalDirection Direction;
-    public IList<IAction> PreparedActions = new List<IAction>();
+    public IAction PreparedAction;
     public IList<IInstruction> Instructions = new List<IInstruction>();
     Tween movementTween;
+    Tween rotationTween;
 
     private long birthCycle = 0;
 
@@ -25,8 +30,9 @@ public partial class Automaton : Node2D
         Scale = new Vector2(GridTileSize / TexturePixelSize, GridTileSize / TexturePixelSize);
     }
 
-    public void Spawn(Vector2I aGridCoordinate, CardinalDirection aDirection, long currentCycle)
+    public void Spawn(Vector2I aGridCoordinate, CardinalDirection aDirection, long currentCycle, double aCycleTimeSec)
     {
+        CycleTimeSec = aCycleTimeSec;
         GridCoordinate = aGridCoordinate;
         GlobalPosition = GridCoordinate * GridTileSize;
         Direction = aDirection;
@@ -46,14 +52,8 @@ public partial class Automaton : Node2D
         IAction action = null;
         int remainingIterations = 50;
 
-        while (action == null)
+        while (action == null && remainingIterations-- > 0)
         {
-            // too long processing
-            if (remainingIterations-- < 0)
-            {
-                return new WaitInstruction.WaitAction();
-            }
-
             IInstruction instruction = Instructions[instructionIndexCurrent];
 
             // too much effort to solve this nicely
@@ -81,7 +81,12 @@ public partial class Automaton : Node2D
             action = instruction.GetAction(this);
         }
 
-        return action;
+        return action ?? new WaitInstruction.WaitAction();
+    }
+    
+    public Vector2I GetTargetPosition()
+    {
+        return GridCoordinate + PreparedAction.GetRelativeMovement();
     }
 
     private bool ExecuteCheck(CheckInstruction checkInstruction, Grid game)
@@ -98,20 +103,32 @@ public partial class Automaton : Node2D
     }
 
 
-    public void MoveGrid(Vector2I direction)
+    public void SetNewGridPosition(Vector2I aNewPosition)
     {
+        GridCoordinate = aNewPosition;
+
         // Calculate the new position
-        Vector2 newPosition = GlobalPosition; 
-        newPosition += direction * GridTileSize;
+        Vector2 newPosition = GridCoordinate * GridTileSize;
 
-        // Kill our current tween if it's still running
+        // reset tween
         movementTween?.Kill();
-
-        // Start a new tween
         movementTween = GetTree().CreateTween();
 
-        // Move ourselves
-        movementTween.TweenProperty(this, "global_position", newPosition, 0.5f);        
+        // create tween
+        movementTween.TweenProperty(this, "global_position", newPosition, CycleTimeSec / 2);
+    }
+
+    private void SetNewGridRotation(CardinalDirection aNewDirection)
+    {
+        float newRotation = Rotation + CardinalDirections.ToVector(Direction).AngleTo(CardinalDirections.ToVector(aNewDirection));
+        Direction = aNewDirection;
+
+        // reset tween
+        rotationTween?.Kill();
+        rotationTween = GetTree().CreateTween();
+
+        // create tween
+        rotationTween.TweenProperty(this, "rotation", newRotation, CycleTimeSec / 2);
     }
 
 
@@ -142,25 +159,22 @@ public partial class Automaton : Node2D
 
     public void MoveForward()
     {
-        MoveGrid(CardinalDirections.ToVectorI(Direction));
+        SetNewGridPosition(GridCoordinate + CardinalDirections.ToVectorI(Direction));
     }
 
     public void MoveBackward()
     {
-        Vector2I back = -CardinalDirections.ToVectorI(Direction);
-        MoveGrid(back);
+        SetNewGridPosition(GridCoordinate - CardinalDirections.ToVectorI(Direction));
     }
 
     public void TurnLeft()
     {
-        Direction = CardinalDirections.RotateCounterClockwise(Direction);
-        Rotation = CardinalDirections.ToVector(Direction).Angle();
+        SetNewGridRotation(CardinalDirections.RotateCounterClockwise(Direction));
     }
 
     public void TurnRight()
     {
-        Direction = CardinalDirections.RotateClockwise(Direction);
-        Rotation = CardinalDirections.ToVector(Direction).Angle();
+        SetNewGridRotation(CardinalDirections.RotateClockwise(Direction));
     }
 
     public Vector2I LocalToGlobal(Vector2I vector)

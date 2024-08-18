@@ -6,3 +6,8 @@ public interface IAction
 
     void Execute(Automaton automaton);
 }
+
+public class BlockedAction : IAction
+{
+    public void Execute(Automaton automaton) {}
+}

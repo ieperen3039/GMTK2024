@@ -127,9 +127,9 @@ public partial class World : Node2D
             throw new Exception("null instruction");
         };
 
-        Automaton automaton = automatonScene.Instantiate<Automaton>();
-        automaton.Plunder(playerAutomaton);
-        AddChild(automaton);
+        // Automaton automaton = automatonScene.Instantiate<Automaton>();
+        // automaton.Plunder(playerAutomaton);
+        // AddChild(automaton);
 
         playerAutomaton.Instructions = instructions;
 
@@ -139,7 +139,7 @@ public partial class World : Node2D
 
     private void Spawn(Automaton automaton, Vector2I spawnPosition)
     {
-        automaton.Spawn(spawnPosition, CardinalDirection.NORTH, currentCycleIndex);
+        automaton.Spawn(spawnPosition, CardinalDirection.NORTH, currentCycleIndex, cycleTimeSec);
         GetCurrentGrid().GetElement(automaton.GridCoordinate).Automaton = automaton;
     }
 
@@ -172,34 +172,102 @@ public partial class World : Node2D
 
     public void RunCycle()
     {
-        GD.Print("RunCycle");
-        // collect intentions
-        Grid currentGrid = GetCurrentGrid();
+        currentCycleIndex++;
+        GD.Print("Cycle " + currentCycleIndex);
 
-        foreach (Grid.Element sourceGridElement in currentGrid)
+        Grid currentGrid = GetCurrentGrid();
+        Grid futureGrid = GetFutureGrid();
+
+        IList<Automaton> automatons = new List<Automaton>();
+
+        // reset future grid
+        foreach (Grid.Element tile in futureGrid)
         {
-            if (sourceGridElement.Automaton != null)
+            tile.numReservations = 0;
+            tile.Automaton = null;
+        }
+
+        // collect automatons
+        foreach (Grid.Element tile in currentGrid)
+        {
+            if (tile.Automaton != null)
             {
-                Automaton automaton = sourceGridElement.Automaton;
-                automaton.PreparedActions.Clear();
-                IAction action = automaton.ReadInstruction(currentGrid);
-                automaton.PreparedActions.Add(action);
+                Automaton automaton = tile.Automaton;
+                automaton.PreparedAction = automaton.ReadInstruction(currentGrid);
+                
+                // only move actions can block other automatons
+                if (automaton.PreparedAction is MoveAction)
+                {
+                    Vector2I targetPosition = automaton.GetTargetPosition();
+                    Grid.Element targetTile = futureGrid.GetElement(targetPosition);
+                    targetTile.numReservations++;
+
+                    GD.Print("Automaton ", automaton, " moves to ", targetPosition);
+                }
+
+                automatons.Add(automaton);
             }
         }
 
+        BlockedAction blocked = new();
+
+        bool resolved = false;
+        int iterationsRemaining = 10;
         // check and update prepared actions
-        foreach (Grid.Element sourceGridElement in currentGrid)
+        while (iterationsRemaining-- > 0 && !resolved)
         {
-            if (sourceGridElement.Automaton != null)
+            resolved = true;
+
+            foreach (Automaton thisAutomaton in automatons)
             {
-                Automaton automaton = sourceGridElement.Automaton;
-                Vector2I targetPosition = automaton.GridCoordinate;
-                foreach (IAction action in automaton.PreparedActions)
+                Vector2I targetPosition = thisAutomaton.GetTargetPosition();
+                Grid.Element targetTile = futureGrid.GetElement(targetPosition);
+
+                if (targetTile.numReservations > 1)
                 {
-                    targetPosition += action.GetRelativeMovement();
+                    GD.Print("Automaton ", thisAutomaton, " is blocked (reservation)");
+                    // multiple automatons tried to enter this tile
+                    thisAutomaton.PreparedAction = blocked;
+                    resolved = false;
+                }
+
+                Automaton targetAutomaton = targetTile.Automaton;
+                if (targetAutomaton == thisAutomaton)
+                { 
+                    // this automaton was resolved
+                }
+                if (targetAutomaton != null)
+                {
+                    if (targetAutomaton.PreparedAction is BlockedAction)
+                    {
+                        GD.Print("Automaton ", thisAutomaton, " is blocked (BlockedAction)");
+                        // target was blocked, we cannot move it
+                        thisAutomaton.PreparedAction = blocked;
+                        resolved = false;
+                    }
+                    else
+                    {
+                        GD.Print("Automaton ", targetAutomaton, " is moved (pushed)");
+                        targetAutomaton.PreparedAction = thisAutomaton.PreparedAction;
+                        targetTile.Automaton = null;
+                        resolved = false;
+                    }
+
+                }
+                else if (targetTile.IsWall)
+                {
+                    GD.Print("Automaton ", thisAutomaton, " is blocked (Wall)");
+                    thisAutomaton.PreparedAction = blocked;
+                    resolved = false;
+                }
+                else
+                {
+                    targetTile.Automaton = thisAutomaton;
                 }
             }
         }
+
+        GD.Print("resolved in " + (10 - iterationsRemaining) + " iterations");
 
         // execute the actions
         foreach (Grid.Element sourceGridElement in currentGrid)
@@ -211,25 +279,10 @@ public partial class World : Node2D
                 sourceGridElement.Automaton = null;
 
                 // execute actions
-                Vector2I newPosition = automaton.GridCoordinate;
-                foreach (IAction action in automaton.PreparedActions)
-                {
-                    action.Execute(automaton);
-                    newPosition += action.GetRelativeMovement();
-                }
-                automaton.GridCoordinate = newPosition;
+                automaton.PreparedAction.Execute(automaton);
 
-                // add to the new place
-                Grid.Element targetGridElement = GetFutureGrid().GetElement(newPosition);
-                if (targetGridElement.Automaton != null)
-                {
-                    throw new Exception("Automaton added to grid element, but there was already another automaton " + newPosition);
-                }
-                if (targetGridElement.HasFloor && !targetGridElement.IsWall)
-                {
-                    targetGridElement.Automaton = automaton;
-                }
-                else
+                Grid.Element targetGridElement = futureGrid.GetElement(automaton.GridCoordinate);
+                if (!targetGridElement.HasFloor)
                 {
                     automaton.Die();
                 }

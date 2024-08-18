@@ -36,6 +36,7 @@ layout_mode = 2
 text = "Open Editor"
 
 [node name="Reset" type="Button" parent="Panel/MarginContainer/HBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "Reset Automaton
@@ -50,6 +51,12 @@ custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "Options"
 
+[node name="Quit" type="Button" parent="Panel/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Quit"
+
 [connection signal="pressed" from="Panel/MarginContainer/HBoxContainer/ToEditorButton" to="." method="OnToEditorPressed"]
 [connection signal="pressed" from="Panel/MarginContainer/HBoxContainer/Reset" to="." method="OnResetPlayerPressed"]
 [connection signal="pressed" from="Panel/MarginContainer/HBoxContainer/MenuButton" to="." method="OnOpenMenuPressed"]
+[connection signal="pressed" from="Panel/MarginContainer/HBoxContainer/Quit" to="." method="OnQuitPressed"]

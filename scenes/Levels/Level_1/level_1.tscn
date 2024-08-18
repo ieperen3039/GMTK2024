@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bq0abb4awf374"]
+[gd_scene load_steps=6 format=3 uid="uid://bq0abb4awf374"]
 
 [ext_resource type="Script" path="res://scenes/World.cs" id="1_4c806"]
 [ext_resource type="PackedScene" uid="uid://cxagp8ssfi74g" path="res://scenes/GridTile/grid_tile.tscn" id="2_gqhja"]
 [ext_resource type="PackedScene" uid="uid://dvcjrfnssr6p5" path="res://scenes/Automaton/automaton.tscn" id="3_ijn5u"]
+[ext_resource type="PackedScene" uid="uid://bublga5muaduv" path="res://scenes/Automaton/player_automaton.tscn" id="3_m7cy6"]
 
 [sub_resource type="Image" id="Image_ssry4"]
 
@@ -10,11 +11,12 @@
 script = ExtResource("1_4c806")
 layout = SubResource("Image_ssry4")
 GridTileScene = ExtResource("2_gqhja")
-playerAutomaton = NodePath("Automaton")
+playerAutomaton = NodePath("PlayerAutomaton")
+automatonScene = ExtResource("3_ijn5u")
 cycleTimeSec = 0.5
 
 [node name="Grid" type="Node2D" parent="."]
 
-[node name="Automaton" parent="." instance=ExtResource("3_ijn5u")]
+[node name="PlayerAutomaton" parent="." instance=ExtResource("3_m7cy6")]
 
-[node name="Camera2D" type="Camera2D" parent="Automaton"]
+[node name="Camera2D" type="Camera2D" parent="PlayerAutomaton"]

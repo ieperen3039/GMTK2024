@@ -13,4 +13,5 @@ public partial class LevelUi : Control
     private void OnToEditorPressed() => EmitSignal(SignalName.ToEditorPressed);
     private void OnResetPlayerPressed() => EmitSignal(SignalName.ResetPlayerPressed);
     private void OnOpenMenuPressed() => EmitSignal(SignalName.OpenMenuPressed);
+    private void OnQuitPressed() => GetTree().Quit();
 }
