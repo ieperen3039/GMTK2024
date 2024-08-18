@@ -39,7 +39,7 @@ public class CardinalDirections
             CardinalDirection.EAST => new Vector2(1, 0),
             CardinalDirection.NORTH => new Vector2(0, -1),
             CardinalDirection.WEST => new Vector2(-1, 0),
-            CardinalDirection.SOUTH => new Vector2(0, -1),
+            CardinalDirection.SOUTH => new Vector2(0, 1),
             _ => new(),
         };
     }
