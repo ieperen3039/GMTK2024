@@ -4,10 +4,12 @@ using System.Collections.Generic;
 
 public class CheckInstruction : JumpInstruction
 {
-    public enum WhatToCheck {
+    public enum WhatToCheck
+    {
+        HOLE,
         AUTOMATON,
         FLOOR,
-        WALL,
+        WALL
     }
 
     private const int gridXForw = 3;
@@ -33,7 +35,12 @@ public class CheckInstruction : JumpInstruction
         {
             return true;
         }
-        if (ThingToCheck == WhatToCheck.WALL && element.IsWall){
+        if (ThingToCheck == WhatToCheck.WALL && element.IsWall)
+        {
+            return true;
+        }
+        if (ThingToCheck == WhatToCheck.HOLE && !element.HasFloor)
+        {
             return true;
         }
         return false;

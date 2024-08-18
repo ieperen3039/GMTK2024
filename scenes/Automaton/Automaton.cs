@@ -55,6 +55,7 @@ public partial class Automaton : Node2D
         while (action == null && remainingIterations-- > 0)
         {
             IInstruction instruction = Instructions[instructionIndexCurrent];
+                GD.Print("Execute ", instructionIndexCurrent);
 
             // too much effort to solve this nicely
             if (instruction == null)
@@ -72,6 +73,7 @@ public partial class Automaton : Node2D
             else if (instruction is JumpInstruction jumpInstruction)
             {
                 instructionIndexCurrent = jumpInstruction.TargetId;
+                GD.Print("Jump to ", jumpInstruction.TargetId);
             }
             else
             {
