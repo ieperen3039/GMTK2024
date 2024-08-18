@@ -47,7 +47,6 @@ public partial class World : Node2D
 
     public override void _Ready()
     {
-        layout = Image.LoadFromFile("res://assets/levels/level_1.png");
         cycleCooldownSec = cycleTimeSec;
         // cycleCooldownSec = double.MaxValue;
         rng = new RandomNumberGenerator();
